@@ -2,1268 +2,374 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Clumsy MacBook WebOS</title>
-
 <style>
-/* I am not a designer, so this is kind of macOS-ish */
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-}
-
-body {
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-    "Segoe UI", sans-serif;
-  color: #222;
-  background:
-    linear-gradient(rgba(0,0,0,.15), rgba(0,0,0,.15)),
-    url("https://images.unsplash.com/photo-1534791547706-3c4b7b76c8f8?auto=format&fit=crop&w=2200&q=85");
-  background-size: cover;
-  background-position: center;
-}
-
-/* -------------------------
-   TOP MAC MENU BAR
--------------------------- */
-
-.menu-bar {
-  height: 30px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9000;
-
-  display: flex;
-  align-items: center;
-  gap: 17px;
-  padding: 0 14px;
-
-  color: white;
-  font-size: 13px;
-  background: rgba(25, 25, 25, .55);
-  backdrop-filter: blur(18px);
-}
-
-.apple {
-  font-size: 18px;
-  margin-top: -2px;
-}
-
-.menu-bar .right-side {
-  margin-left: auto;
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-/* -------------------------
-   DESKTOP ICONS
--------------------------- */
-
-.desktop-icons {
-  position: fixed;
-  top: 52px;
-  right: 22px;
-  z-index: 2;
-
-  width: 90px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.desktop-icon {
-  width: 90px;
-  text-align: center;
-  color: white;
-  cursor: pointer;
-  text-shadow: 0 1px 3px #000;
-  user-select: none;
-}
-
-.desktop-icon .emoji {
-  width: 62px;
-  height: 62px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 42px;
-  border-radius: 13px;
-}
-
-.desktop-icon:hover .emoji {
-  background: rgba(255, 255, 255, .2);
-}
-
-.desktop-icon p {
-  margin: 4px 0 0;
-  font-size: 12px;
-}
-
-/* -------------------------
-   WINDOWS
--------------------------- */
-
-.window {
-  position: absolute;
-  top: 110px;
-  left: 170px;
-
-  width: 470px;
-  min-height: 270px;
-
-  display: none;
-  overflow: hidden;
-
-  background: rgba(247, 247, 249, .92);
-  border: 1px solid rgba(255,255,255,.8);
-  border-radius: 12px;
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.42),
-    0 2px 8px rgba(0,0,0,.25);
-
-  backdrop-filter: blur(24px);
-}
-
-.titlebar {
-  width: 100%;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  position: relative;
-
-  background: rgba(232, 232, 235, .8);
-  border-bottom: 1px solid rgba(0,0,0,.12);
-  cursor: move;
-}
-
-.window-name {
-  width: 100%;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: #333;
-  pointer-events: none;
-}
-
-.traffic-lights {
-  position: absolute;
-  left: 12px;
-  top: 11px;
-  display: flex;
-  gap: 7px;
-}
-
-.light {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  border: 1px solid rgba(0,0,0,.15);
-  cursor: pointer;
-  padding: 0;
-}
-
-.red {
-  background: #ff5f57;
-}
-
-.yellow {
-  background: #ffbd2e;
-}
-
-.green {
-  background: #28c840;
-}
-
-.window-content {
-  padding: 15px;
-  max-height: 560px;
-  overflow: auto;
-}
-
-/* -------------------------
-   COMMON CONTENT
--------------------------- */
-
-.card {
-  background: rgba(255,255,255,.65);
-  border: 1px solid rgba(0,0,0,.12);
-  border-radius: 9px;
-  padding: 12px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.08);
-}
-
-.card h3 {
-  margin: 0 0 8px;
-  font-size: 14px;
-}
-
-button {
-  border: 1px solid #aaa;
-  border-radius: 7px;
-  background: linear-gradient(#fff, #e7e7e7);
-  padding: 7px 12px;
-  color: #222;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-button:hover {
-  background: #dcecff;
-}
-
-input,
-textarea {
-  font-family: inherit;
-}
-
-.search {
-  width: 100%;
-  padding: 9px 11px;
-  border-radius: 7px;
-  border: 1px solid #aaa;
-  background: rgba(255,255,255,.75);
-  margin-bottom: 11px;
-  outline: none;
-}
-
-textarea {
-  width: 100%;
-  height: 190px;
-  resize: none;
-  padding: 10px;
-  border-radius: 7px;
-  border: 1px solid #aaa;
-  background: rgba(255,255,255,.8);
-  outline: none;
-  font-size: 13px;
-}
-
-/* -------------------------
-   MUSIC
--------------------------- */
-
-.song {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 10px;
-  margin-bottom: 9px;
-  border-radius: 8px;
-  background: rgba(255,255,255,.55);
-  border: 1px solid rgba(0,0,0,.1);
-}
-
-.song-cover {
-  width: 46px;
-  height: 46px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #7967ff, #ec72bd);
-  font-size: 24px;
-}
-
-/* -------------------------
-   MOVIES
--------------------------- */
-
-.movies {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.movie {
-  padding: 9px;
-  border-radius: 8px;
-  background: rgba(255,255,255,.65);
-  border: 1px solid rgba(0,0,0,.1);
-}
-
-.poster {
-  height: 100px;
-  margin-bottom: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 7px;
-  font-size: 36px;
-  background: linear-gradient(135deg, #24243e, #302b63, #0f0c29);
-}
-
-/* -------------------------
-   CALCULATOR
--------------------------- */
-
-#calcDisplay {
-  padding: 13px;
-  margin-bottom: 10px;
-  text-align: right;
-  font-size: 22px;
-  border-radius: 7px;
-  color: white;
-  background: #333;
-}
-
-.calc {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-}
-
-.calc button {
-  height: 40px;
-  font-size: 15px;
-}
-
-/* -------------------------
-   TERMINAL
--------------------------- */
-
-.terminal {
-  height: 220px;
-  padding: 12px;
-  overflow: auto;
-  border-radius: 8px;
-  color: #b8f5a1;
-  background: #171717;
-  font-family: Menlo, Consolas, monospace;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.terminal input {
-  width: 80%;
-  color: white;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: inherit;
-}
-
-/* -------------------------
-   CANVAS
--------------------------- */
-
-canvas {
-  display: block;
-  width: 100%;
-  height: 250px;
-  background: white;
-  border: 1px solid #aaa;
-  border-radius: 7px;
-  cursor: crosshair;
-}
-
-#snake {
-  width: 300px;
-  height: 300px;
-  margin: auto;
-  background: #111;
-}
-
-/* -------------------------
-   DOCK
--------------------------- */
-
-.dock {
-  position: fixed;
-  z-index: 8000;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
-
-  display: flex;
-  gap: 8px;
-  padding: 8px 10px;
-
-  border: 1px solid rgba(255,255,255,.5);
-  border-radius: 18px;
-  background: rgba(245,245,245,.42);
-  backdrop-filter: blur(22px);
-  box-shadow: 0 5px 25px rgba(0,0,0,.35);
-}
-
-.dock button {
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border: none;
-  border-radius: 12px;
-  background: rgba(255,255,255,.45);
-  font-size: 26px;
-  transition: .15s;
-}
-
-.dock button:hover {
-  transform: translateY(-9px) scale(1.15);
-}
-
-/* -------------------------
-   SMALL NOTIFICATION
--------------------------- */
-
-.notice {
-  display: none;
-  position: fixed;
-  z-index: 10000;
-  top: 48px;
-  right: 20px;
-
-  padding: 13px 16px;
-  border-radius: 10px;
-  color: #222;
-  background: rgba(255,255,255,.9);
-  box-shadow: 0 8px 25px rgba(0,0,0,.3);
-}
-
-/* -------------------------
-   MOBILE
--------------------------- */
-
-@media (max-width: 650px) {
-  .desktop-icons {
-    right: 8px;
-    top: 48px;
-    transform: scale(.8);
-    transform-origin: top right;
-  }
-
-  .window {
-    width: calc(100vw - 20px);
-    left: 10px !important;
-    top: 70px !important;
-  }
-
-  .dock {
-    max-width: 96%;
-    overflow-x: auto;
-  }
-
-  .dock button {
-    min-width: 43px;
-    width: 43px;
-    height: 43px;
-    font-size: 22px;
-  }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%}
+body{overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:#222;background:linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.15)),url("https://images.unsplash.com/photo-1534791547706-3c4b7b76c8f8?auto=format&fit=crop&w=2200&q=85");background-size:cover;background-position:center}
+.menu-bar{height:30px;width:100%;position:fixed;top:0;left:0;z-index:9000;display:flex;align-items:center;gap:17px;padding:0 14px;color:white;font-size:13px;background:rgba(25,25,25,.55);backdrop-filter:blur(18px)}
+.apple{font-size:18px;margin-top:-2px}
+.menu-bar .right-side{margin-left:auto;display:flex;gap:15px;align-items:center}
+.desktop-icons{position:fixed;top:52px;right:22px;z-index:2;width:90px;display:flex;flex-direction:column;gap:20px}
+.desktop-icon{width:90px;text-align:center;color:white;cursor:pointer;text-shadow:0 1px 3px #000;user-select:none}
+.desktop-icon .emoji{width:62px;height:62px;margin:auto;display:flex;justify-content:center;align-items:center;font-size:42px;border-radius:13px}
+.desktop-icon:hover .emoji{background:rgba(255,255,255,.2)}
+.desktop-icon p{margin:4px 0 0;font-size:12px}
+.window{position:absolute;top:110px;left:170px;width:470px;min-height:270px;display:none;overflow:hidden;background:rgba(247,247,249,.92);border:1px solid rgba(255,255,255,.8);border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.42),0 2px 8px rgba(0,0,0,.25);backdrop-filter:blur(24px)}
+.titlebar{width:100%;height:38px;display:flex;align-items:center;position:relative;background:rgba(232,232,235,.8);border-bottom:1px solid rgba(0,0,0,.12);cursor:move}
+.window-name{width:100%;text-align:center;font-size:13px;font-weight:600;color:#333;pointer-events:none}
+.traffic-lights{position:absolute;left:12px;top:11px;display:flex;gap:7px}
+.light{width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,.15);cursor:pointer;padding:0}
+.red{background:#ff5f57}
+.yellow{background:#ffbd2e}
+.green{background:#28c840}
+.window-content{padding:15px;max-height:560px;overflow:auto}
+.card{background:rgba(255,255,255,.65);border:1px solid rgba(0,0,0,.12);border-radius:9px;padding:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card h3{margin:0 0 8px;font-size:14px}
+button{border:1px solid #aaa;border-radius:7px;background:linear-gradient(#fff,#e7e7e7);padding:7px 12px;color:#222;cursor:pointer;font-size:13px;font-family:inherit}
+button:hover{background:#dcecff}
+input,textarea{font-family:inherit}
+.search{width:100%;padding:9px 11px;border-radius:7px;border:1px solid #aaa;background:rgba(255,255,255,.75);margin-bottom:11px;outline:none}
+textarea{width:100%;height:190px;resize:none;padding:10px;border-radius:7px;border:1px solid #aaa;background:rgba(255,255,255,.8);outline:none;font-size:13px}
+.song{display:flex;gap:12px;align-items:center;padding:10px;margin-bottom:9px;border-radius:8px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.1)}
+.song-cover{width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#7967ff,#ec72bd);font-size:24px}
+.movies{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.movie{padding:9px;border-radius:8px;background:rgba(255,255,255,.65);border:1px solid rgba(0,0,0,.1)}
+.poster{height:100px;margin-bottom:7px;display:flex;align-items:center;justify-content:center;border-radius:7px;font-size:36px;background:linear-gradient(135deg,#24243e,#302b63,#0f0c29)}
+#calcDisplay{padding:13px;margin-bottom:10px;text-align:right;font-size:22px;border-radius:7px;color:white;background:#333}
+.calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.calc button{height:40px;font-size:15px}
+.terminal{height:220px;padding:12px;overflow:auto;border-radius:8px;color:#b8f5a1;background:#171717;font-family:Menlo,Consolas,monospace;font-size:12px;line-height:1.5}
+.terminal input{width:80%;color:white;background:transparent;border:none;outline:none;font-family:inherit}
+canvas{display:block;width:100%;height:250px;background:white;border:1px solid #aaa;border-radius:7px;cursor:crosshair}
+#snake{width:300px;height:300px;margin:auto;background:#111}
+.dock{position:fixed;z-index:8000;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:8px;padding:8px 10px;border:1px solid rgba(255,255,255,.5);border-radius:18px;background:rgba(245,245,245,.42);backdrop-filter:blur(22px);box-shadow:0 5px 25px rgba(0,0,0,.35)}
+.dock button{width:48px;height:48px;padding:0;border:none;border-radius:12px;background:rgba(255,255,255,.45);font-size:26px;transition:.15s}
+.dock button:hover{transform:translateY(-9px) scale(1.15)}
+.notice{display:none;position:fixed;z-index:10000;top:48px;right:20px;padding:13px 16px;border-radius:10px;color:#222;background:rgba(255,255,255,.9);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+@media(max-width:650px){.desktop-icons{right:8px;top:48px;transform:scale(.8);transform-origin:top right}.window{width:calc(100vw - 20px);left:10px!important;top:70px!important}.dock{max-width:96%;overflow-x:auto}.dock button{min-width:43px;width:43px;height:43px;font-size:22px}}
 </style>
 </head>
-
 <body>
 
 <!-- TOP MENU -->
 <div class="menu-bar">
-  <span class="apple">●</span>
-  <span><b>Finder</b></span>
-  <span>File</span>
-  <span>Edit</span>
-  <span>View</span>
-  <span>Window</span>
-  <span>Help</span>
-
-  <div class="right-side">
-    <span>Wi‑Fi</span>
-    <span>🔋</span>
-    <span id="clock">00:00</span>
-  </div>
+<span class="apple">●</span>
+<span><b>Finder</b></span>
+<span>File</span>
+<span>Edit</span>
+<span>View</span>
+<span>Window</span>
+<span>Help</span>
+<div class="right-side">
+<span>Wi‑Fi</span>
+<span>🔋</span>
+<span id="clock">00:00</span>
+</div>
 </div>
 
 <!-- DESKTOP APPS -->
 <div class="desktop-icons">
-
-  <div class="desktop-icon" onclick="openWin('files')">
-    <div class="emoji">📁</div>
-    <p>Files</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('games')">
-    <div class="emoji">🎮</div>
-    <p>Games</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('music')">
-    <div class="emoji">🎵</div>
-    <p>Music</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('movies')">
-    <div class="emoji">🎬</div>
-    <p>Movies</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('notes')">
-    <div class="emoji">📝</div>
-    <p>Notes</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('paint')">
-    <div class="emoji">🎨</div>
-    <p>Paint</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('calc')">
-    <div class="emoji">🔢</div>
-    <p>Calculator</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('terminal')">
-    <div class="emoji">⌨️</div>
-    <p>Terminal</p>
-  </div>
-
-  <div class="desktop-icon" onclick="openWin('settings')">
-    <div class="emoji">⚙️</div>
-    <p>Settings</p>
-  </div>
-
+<div class="desktop-icon" onclick="openWin('files')"><div class="emoji">📁</div><p>Files</p></div>
+<div class="desktop-icon" onclick="openWin('games')"><div class="emoji">🎮</div><p>Games</p></div>
+<div class="desktop-icon" onclick="openWin('music')"><div class="emoji">🎵</div><p>Music</p></div>
+<div class="desktop-icon" onclick="openWin('movies')"><div class="emoji">🎬</div><p>Movies</p></div>
+<div class="desktop-icon" onclick="openWin('notes')"><div class="emoji">📝</div><p>Notes</p></div>
+<div class="desktop-icon" onclick="openWin('paint')"><div class="emoji">🎨</div><p>Paint</p></div>
+<div class="desktop-icon" onclick="openWin('calc')"><div class="emoji">🔢</div><p>Calculator</p></div>
+<div class="desktop-icon" onclick="openWin('terminal')"><div class="emoji">⌨️</div><p>Terminal</p></div>
+<div class="desktop-icon" onclick="openWin('settings')"><div class="emoji">⚙️</div><p>Settings</p></div>
 </div>
 
 <!-- FILES -->
-<div class="window" id="files" style="left:130px; top:90px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('files')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('files')"></button>
-    </div>
-    <div class="window-name">My Files</div>
-  </div>
-
-  <div class="window-content">
-    <input class="search" placeholder="Search files..." oninput="searchFiles(this.value)">
-
-    <div id="fileList">
-      <div class="card">📄 index.html</div>
-      <div class="card">🎨 wallpaper.png</div>
-      <div class="card">🎵 music.mp3</div>
-      <div class="card">🎬 movie-list.txt</div>
-      <div class="card">📝 notes.txt</div>
-      <div class="card">🎮 games.js</div>
-    </div>
-  </div>
+<div class="window" id="files" style="left:130px;top:90px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('files')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('files')"></button>
+</div>
+<div class="window-name">My Files</div>
+</div>
+<div class="window-content">
+<input class="search" placeholder="Search files..." oninput="searchFiles(this.value)">
+<div id="fileList">
+<div class="card">📄 index.html</div>
+<div class="card">🎨 wallpaper.png</div>
+<div class="card">🎵 music.mp3</div>
+<div class="card">🎬 movie-list.txt</div>
+<div class="card">📝 notes.txt</div>
+<div class="card">🎮 games.js</div>
+</div>
+</div>
 </div>
 
 <!-- GAMES -->
-<div class="window" id="games" style="left:260px; top:95px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('games')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('games')"></button>
-    </div>
-    <div class="window-name">Game Center</div>
-  </div>
-
-  <div class="window-content">
-
-    <div class="card">
-      <h3>🎯 Click Challenge</h3>
-      <p>Click the button a lot in ten seconds.</p>
-
-      <h2 id="score">0</h2>
-
-      <button onclick="clickGame()">CLICK!</button>
-      <button onclick="startClickGame()">Start</button>
-
-      <p id="gameTime">Ready</p>
-    </div>
-
-    <div class="card">
-      <h3>🐍 Snake</h3>
-      <button onclick="startSnake()">Start Snake</button>
-      <canvas id="snake" width="300" height="300"></canvas>
-    </div>
-
-  </div>
+<div class="window" id="games" style="left:260px;top:95px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('games')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('games')"></button>
+</div>
+<div class="window-name">Game Center</div>
+</div>
+<div class="window-content">
+<div class="card">
+<h3>🎯 Click Challenge</h3>
+<p>Click the button a lot in ten seconds.</p>
+<h2 id="score">0</h2>
+<button onclick="clickGame()">CLICK!</button>
+<button onclick="startClickGame()">Start</button>
+<p id="gameTime">Ready</p>
+</div>
+<div class="card">
+<h3>🐍 Snake</h3>
+<button onclick="startSnake()">Start Snake</button>
+<canvas id="snake" width="300" height="300"></canvas>
+</div>
+</div>
 </div>
 
 <!-- MUSIC -->
-<div class="window" id="music" style="left:620px; top:100px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('music')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('music')"></button>
-    </div>
-    <div class="window-name">Music</div>
-  </div>
-
-  <div class="window-content">
-
-    <div class="song">
-      <div class="song-cover">🎧</div>
-      <div>
-        <b>My First Track</b><br>
-        <small>WebOS Playlist</small>
-      </div>
-    </div>
-
-    <div class="song">
-      <div class="song-cover">🌙</div>
-      <div>
-        <b>Night Drive</b><br>
-        <small>Chill Playlist</small>
-      </div>
-    </div>
-
-    <div class="song">
-      <div class="song-cover">🔥</div>
-      <div>
-        <b>Energy</b><br>
-        <small>Workout Playlist</small>
-      </div>
-    </div>
-
-    <p>Add your own MP3 files later. I was too lazy to add them now.</p>
-
-  </div>
+<div class="window" id="music" style="left:620px;top:100px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('music')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('music')"></button>
+</div>
+<div class="window-name">Music</div>
+</div>
+<div class="window-content">
+<div class="song">
+<div class="song-cover">🎧</div>
+<div><b>My First Track</b><br><small>WebOS Playlist</small></div>
+</div>
+<div class="song">
+<div class="song-cover">🌙</div>
+<div><b>Night Drive</b><br><small>Chill Playlist</small></div>
+</div>
+<div class="song">
+<div class="song-cover">🔥</div>
+<div><b>Energy</b><br><small>Workout Playlist</small></div>
+</div>
+<p>Add your own MP3 files later. I was too lazy to add them now.</p>
+</div>
 </div>
 
 <!-- MOVIES -->
-<div class="window" id="movies" style="left:500px; top:270px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('movies')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('movies')"></button>
-    </div>
-    <div class="window-name">Movies</div>
-  </div>
-
-  <div class="window-content">
-    <input class="search" placeholder="Search movies..." oninput="searchMovies(this.value)">
-
-    <div class="movies" id="movieList">
-
-      <div class="movie">
-        <div class="poster">🚀</div>
-        <b>Space Trip</b><br>
-        <small>Sci-Fi</small>
-      </div>
-
-      <div class="movie">
-        <div class="poster">🏎️</div>
-        <b>Fast Road</b><br>
-        <small>Action</small>
-      </div>
-
-      <div class="movie">
-        <div class="poster">👽</div>
-        <b>Alien World</b><br>
-        <small>Adventure</small>
-      </div>
-
-      <div class="movie">
-        <div class="poster">🕵️</div>
-        <b>Hidden Case</b><br>
-        <small>Mystery</small>
-      </div>
-
-    </div>
-  </div>
+<div class="window" id="movies" style="left:500px;top:270px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('movies')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('movies')"></button>
+</div>
+<div class="window-name">Movies</div>
+</div>
+<div class="window-content">
+<input class="search" placeholder="Search movies..." oninput="searchMovies(this.value)">
+<div class="movies" id="movieList">
+<div class="movie"><div class="poster">🚀</div><b>Space Trip</b><br><small>Sci-Fi</small></div>
+<div class="movie"><div class="poster">🏎️</div><b>Fast Road</b><br><small>Action</small></div>
+<div class="movie"><div class="poster">👽</div><b>Alien World</b><br><small>Adventure</small></div>
+<div class="movie"><div class="poster">🕵️</div><b>Hidden Case</b><br><small>Mystery</small></div>
+</div>
+</div>
 </div>
 
 <!-- NOTES -->
-<div class="window" id="notes" style="left:180px; top:350px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('notes')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('notes')"></button>
-    </div>
-    <div class="window-name">Notes</div>
-  </div>
-
-  <div class="window-content">
-    <textarea id="notesBox" placeholder="Write something..."></textarea>
-    <p>It saves automatically using localStorage.</p>
-  </div>
+<div class="window" id="notes" style="left:180px;top:350px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('notes')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('notes')"></button>
+</div>
+<div class="window-name">Notes</div>
+</div>
+<div class="window-content">
+<textarea id="notesBox" placeholder="Write something..."></textarea>
+<p>It saves automatically using localStorage.</p>
+</div>
 </div>
 
 <!-- PAINT -->
-<div class="window" id="paint" style="left:600px; top:350px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('paint')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('paint')"></button>
-    </div>
-    <div class="window-name">Mini Paint</div>
-  </div>
-
-  <div class="window-content">
-    <canvas id="paintCanvas"></canvas>
-    <br>
-    <button onclick="clearPaint()">Clear Drawing</button>
-  </div>
+<div class="window" id="paint" style="left:600px;top:350px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('paint')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('paint')"></button>
+</div>
+<div class="window-name">Mini Paint</div>
+</div>
+<div class="window-content">
+<canvas id="paintCanvas"></canvas>
+<br>
+<button onclick="clearPaint()">Clear Drawing</button>
+</div>
 </div>
 
 <!-- CALCULATOR -->
-<div class="window" id="calc" style="left:400px; top:120px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('calc')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('calc')"></button>
-    </div>
-    <div class="window-name">Calculator</div>
-  </div>
-
-  <div class="window-content">
-    <div id="calcDisplay">0</div>
-
-    <div class="calc">
-      <button onclick="calcAdd('7')">7</button>
-      <button onclick="calcAdd('8')">8</button>
-      <button onclick="calcAdd('9')">9</button>
-      <button onclick="calcAdd('/')">÷</button>
-
-      <button onclick="calcAdd('4')">4</button>
-      <button onclick="calcAdd('5')">5</button>
-      <button onclick="calcAdd('6')">6</button>
-      <button onclick="calcAdd('*')">×</button>
-
-      <button onclick="calcAdd('1')">1</button>
-      <button onclick="calcAdd('2')">2</button>
-      <button onclick="calcAdd('3')">3</button>
-      <button onclick="calcAdd('-')">−</button>
-
-      <button onclick="calcAdd('0')">0</button>
-      <button onclick="calcClear()">C</button>
-      <button onclick="calcResult()">=</button>
-      <button onclick="calcAdd('+')">+</button>
-    </div>
-  </div>
+<div class="window" id="calc" style="left:400px;top:120px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('calc')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('calc')"></button>
+</div>
+<div class="window-name">Calculator</div>
+</div>
+<div class="window-content">
+<div id="calcDisplay">0</div>
+<div class="calc">
+<button onclick="calcAdd('7')">7</button>
+<button onclick="calcAdd('8')">8</button>
+<button onclick="calcAdd('9')">9</button>
+<button onclick="calcAdd('/')">÷</button>
+<button onclick="calcAdd('4')">4</button>
+<button onclick="calcAdd('5')">5</button>
+<button onclick="calcAdd('6')">6</button>
+<button onclick="calcAdd('*')">×</button>
+<button onclick="calcAdd('1')">1</button>
+<button onclick="calcAdd('2')">2</button>
+<button onclick="calcAdd('3')">3</button>
+<button onclick="calcAdd('-')">−</button>
+<button onclick="calcAdd('0')">0</button>
+<button onclick="calcClear()">C</button>
+<button onclick="calcResult()">=</button>
+<button onclick="calcAdd('+')">+</button>
+</div>
+</div>
 </div>
 
 <!-- TERMINAL -->
-<div class="window" id="terminal" style="left:720px; top:170px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('terminal')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('terminal')"></button>
-    </div>
-    <div class="window-name">Terminal</div>
-  </div>
-
-  <div class="window-content">
-    <div class="terminal">
-      <div id="terminalOutput">
-        Clumsy Mac Terminal<br>
-        Type <span style="color:#fff">help</span> if you want.
-      </div>
-
-      <br>
-      &gt;
-      <input id="terminalInput" onkeydown="terminal(event)">
-    </div>
-  </div>
+<div class="window" id="terminal" style="left:720px;top:170px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('terminal')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('terminal')"></button>
+</div>
+<div class="window-name">Terminal</div>
+</div>
+<div class="window-content">
+<div class="terminal">
+<div id="terminalOutput">Clumsy Mac Terminal<br>Type <span style="color:#fff">help</span> if you want.</div>
+<br>&gt; <input id="terminalInput" onkeydown="terminal(event)">
+</div>
+</div>
 </div>
 
 <!-- SETTINGS -->
-<div class="window" id="settings" style="left:270px; top:190px;">
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <button class="light red" onclick="closeWin('settings')"></button>
-      <button class="light yellow"></button>
-      <button class="light green" onclick="fullWindow('settings')"></button>
-    </div>
-    <div class="window-name">System Settings</div>
-  </div>
-
-  <div class="window-content">
-    <h3>Desktop Colour</h3>
-
-    <button onclick="changeTheme('blue')">Blue</button>
-    <button onclick="changeTheme('purple')">Purple</button>
-    <button onclick="changeTheme('green')">Green</button>
-    <button onclick="resetTheme()">Reset</button>
-
-    <hr>
-
-    <button onclick="notifyUser()">Show Notification</button>
-  </div>
+<div class="window" id="settings" style="left:270px;top:190px">
+<div class="titlebar">
+<div class="traffic-lights">
+<button class="light red" onclick="closeWin('settings')"></button>
+<button class="light yellow"></button>
+<button class="light green" onclick="fullWindow('settings')"></button>
+</div>
+<div class="window-name">System Settings</div>
+</div>
+<div class="window-content">
+<h3>Desktop Colour</h3>
+<button onclick="changeTheme('blue')">Blue</button>
+<button onclick="changeTheme('purple')">Purple</button>
+<button onclick="changeTheme('green')">Green</button>
+<button onclick="resetTheme()">Reset</button>
+<hr>
+<button onclick="notifyUser()">Show Notification</button>
+</div>
 </div>
 
 <!-- DOCK -->
 <div class="dock">
-  <button onclick="openWin('files')">📁</button>
-  <button onclick="openWin('games')">🎮</button>
-  <button onclick="openWin('music')">🎵</button>
-  <button onclick="openWin('movies')">🎬</button>
-  <button onclick="openWin('notes')">📝</button>
-  <button onclick="openWin('paint')">🎨</button>
-  <button onclick="openWin('calc')">🔢</button>
-  <button onclick="openWin('terminal')">⌨️</button>
-  <button onclick="openWin('settings')">⚙️</button>
+<button onclick="openWin('files')">📁</button>
+<button onclick="openWin('games')">🎮</button>
+<button onclick="openWin('music')">🎵</button>
+<button onclick="openWin('movies')">🎬</button>
+<button onclick="openWin('notes')">📝</button>
+<button onclick="openWin('paint')">🎨</button>
+<button onclick="openWin('calc')">🔢</button>
+<button onclick="openWin('terminal')">⌨️</button>
+<button onclick="openWin('settings')">⚙️</button>
 </div>
 
-<div class="notice" id="notice">
-  🔔 Hello from your clumsy Mac WebOS
-</div>
+<div class="notice" id="notice">🔔 Hello from your clumsy Mac WebOS</div>
 
 <script>
-/* -------------------------
-   CLOCK
--------------------------- */
+/* ═══ CLOCK ═══ */
+function updateClock(){let now=new Date();document.getElementById("clock").innerText=now.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
+updateClock();setInterval(updateClock,1000);
 
-function updateClock() {
-  let now = new Date();
+/* ═══ OPEN AND CLOSE WINDOWS ═══ */
+let zIndexNumber=20;
+function openWin(id){let win=document.getElementById(id);win.style.display="block";zIndexNumber++;win.style.zIndex=zIndexNumber}
+function closeWin(id){document.getElementById(id).style.display="none"}
+function fullWindow(id){let win=document.getElementById(id);if(win.classList.contains("big-window")){win.classList.remove("big-window");win.style.width="470px";win.style.height="";win.style.left="200px";win.style.top="100px"}else{win.classList.add("big-window");win.style.width="calc(100vw - 40px)";win.style.height="calc(100vh - 80px)";win.style.left="20px";win.style.top="45px"}}
 
-  document.getElementById("clock").innerText =
-    now.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-}
+/* ═══ DRAG WINDOWS ═══ */
+document.querySelectorAll(".window").forEach(function(win){let bar=win.querySelector(".titlebar");let dragging=false;let differenceX=0;let differenceY=0;bar.addEventListener("mousedown",function(event){dragging=true;zIndexNumber++;win.style.zIndex=zIndexNumber;differenceX=event.clientX-win.offsetLeft;differenceY=event.clientY-win.offsetTop});document.addEventListener("mousemove",function(event){if(!dragging)return;let newX=event.clientX-differenceX;let newY=event.clientY-differenceY;if(newX<0)newX=0;if(newY<30)newY=30;win.style.left=newX+"px";win.style.top=newY+"px"});document.addEventListener("mouseup",function(){dragging=false})});
 
-updateClock();
-setInterval(updateClock, 1000);
+/* ═══ NOTES ═══ */
+let notesBox=document.getElementById("notesBox");
+notesBox.value=localStorage.getItem("clumsyNotes")||"";
+notesBox.addEventListener("input",function(){localStorage.setItem("clumsyNotes",notesBox.value)});
 
+/* ═══ CALCULATOR ═══ */
+let calculation="";
+function calcAdd(value){calculation+=value;document.getElementById("calcDisplay").innerText=calculation}
+function calcClear(){calculation="";document.getElementById("calcDisplay").innerText="0"}
+function calcResult(){try{calculation=String(Function("return "+calculation)());document.getElementById("calcDisplay").innerText=calculation}catch(error){calculation="";document.getElementById("calcDisplay").innerText="Error"}}
 
-/* -------------------------
-   OPEN AND CLOSE WINDOWS
--------------------------- */
+/* ═══ TERMINAL ═══ */
+function terminal(event){if(event.key!=="Enter")return;let input=document.getElementById("terminalInput");let output=document.getElementById("terminalOutput");let command=input.value.trim().toLowerCase();if(command==="help"){output.innerHTML+="<br>help - show commands<br>date - show date<br>apps - show apps<br>clear - clear screen"}else if(command==="date"){output.innerHTML+="<br>"+new Date()}else if(command==="apps"){output.innerHTML+="<br>Files, Games, Music, Movies, Notes, Paint, Calculator"}else if(command==="clear"){output.innerHTML=""}else if(command!==""){output.innerHTML+="<br>Unknown command: "+command}input.value=""}
 
-let zIndexNumber = 20;
+/* ═══ SEARCH ═══ */
+function searchFiles(value){value=value.toLowerCase();document.querySelectorAll("#fileList .card").forEach(function(file){if(file.innerText.toLowerCase().includes(value)){file.style.display="block"}else{file.style.display="none"}})}
+function searchMovies(value){value=value.toLowerCase();document.querySelectorAll("#movieList .movie").forEach(function(movie){if(movie.innerText.toLowerCase().includes(value)){movie.style.display="block"}else{movie.style.display="none"}})}
 
-function openWin(id) {
-  let win = document.getElementById(id);
-
-  win.style.display = "block";
-
-  zIndexNumber++;
-  win.style.zIndex = zIndexNumber;
-}
-
-function closeWin(id) {
-  document.getElementById(id).style.display = "none";
-}
-
-function fullWindow(id) {
-  let win = document.getElementById(id);
-
-  if (win.classList.contains("big-window")) {
-    win.classList.remove("big-window");
-    win.style.width = "470px";
-    win.style.height = "";
-    win.style.left = "200px";
-    win.style.top = "100px";
-  } else {
-    win.classList.add("big-window");
-    win.style.width = "calc(100vw - 40px)";
-    win.style.height = "calc(100vh - 80px)";
-    win.style.left = "20px";
-    win.style.top = "45px";
-  }
-}
-
-
-/* -------------------------
-   DRAG WINDOWS
--------------------------- */
-
-document.querySelectorAll(".window").forEach(function(win) {
-  let bar = win.querySelector(".titlebar");
-
-  let dragging = false;
-  let differenceX = 0;
-  let differenceY = 0;
-
-  bar.addEventListener("mousedown", function(event) {
-    dragging = true;
-
-    zIndexNumber++;
-    win.style.zIndex = zIndexNumber;
-
-    differenceX = event.clientX - win.offsetLeft;
-    differenceY = event.clientY - win.offsetTop;
-  });
-
-  document.addEventListener("mousemove", function(event) {
-    if (!dragging) return;
-
-    let newX = event.clientX - differenceX;
-    let newY = event.clientY - differenceY;
-
-    if (newX < 0) newX = 0;
-    if (newY < 30) newY = 30;
-
-    win.style.left = newX + "px";
-    win.style.top = newY + "px";
-  });
-
-  document.addEventListener("mouseup", function() {
-    dragging = false;
-  });
-});
-
-
-/* -------------------------
-   NOTES
--------------------------- */
-
-let notesBox = document.getElementById("notesBox");
-
-notesBox.value = localStorage.getItem("clumsyNotes") || "";
-
-notesBox.addEventListener("input", function() {
-  localStorage.setItem("clumsyNotes", notesBox.value);
-});
-
-
-/* -------------------------
-   CALCULATOR
--------------------------- */
-
-let calculation = "";
-
-function calcAdd(value) {
-  calculation += value;
-  document.getElementById("calcDisplay").innerText = calculation;
-}
-
-function calcClear() {
-  calculation = "";
-  document.getElementById("calcDisplay").innerText = "0";
-}
-
-function calcResult() {
-  try {
-    // This is not super secure, but this is just my silly little calculator.
-    calculation = String(Function("return " + calculation)());
-    document.getElementById("calcDisplay").innerText = calculation;
-  } catch (error) {
-    calculation = "";
-    document.getElementById("calcDisplay").innerText = "Error";
-  }
-}
-
-
-/* -------------------------
-   TERMINAL
--------------------------- */
-
-function terminal(event) {
-  if (event.key !== "Enter") return;
-
-  let input = document.getElementById("terminalInput");
-  let output = document.getElementById("terminalOutput");
-  let command = input.value.trim().toLowerCase();
-
-  if (command === "help") {
-    output.innerHTML +=
-      "<br>help - show commands" +
-      "<br>date - show date" +
-      "<br>apps - show apps" +
-      "<br>clear - clear screen";
-  } else if (command === "date") {
-    output.innerHTML += "<br>" + new Date();
-  } else if (command === "apps") {
-    output.innerHTML +=
-      "<br>Files, Games, Music, Movies, Notes, Paint, Calculator";
-  } else if (command === "clear") {
-    output.innerHTML = "";
-  } else if (command !== "") {
-    output.innerHTML += "<br>Unknown command: " + command;
-  }
-
-  input.value = "";
-}
-
-
-/* -------------------------
-   SEARCH
--------------------------- */
-
-function searchFiles(value) {
-  value = value.toLowerCase();
-
-  document.querySelectorAll("#fileList .card").forEach(function(file) {
-    if (file.innerText.toLowerCase().includes(value)) {
-      file.style.display = "block";
-    } else {
-      file.style.display = "none";
-    }
-  });
-}
-
-function searchMovies(value) {
-  value = value.toLowerCase();
-
-  document.querySelectorAll("#movieList .movie").forEach(function(movie) {
-    if (movie.innerText.toLowerCase().includes(value)) {
-      movie.style.display = "block";
-    } else {
-      movie.style.display = "none";
-    }
-  });
-}
-
-
-/* -------------------------
-   CLICK GAME
--------------------------- */
-
-let clicks = 0;
-let clickGameRunning = false;
+/* ═══ CLICK GAME ═══ */
+let clicks=0;
+let clickGameRunning=false;
 let clickTimer;
+function startClickGame(){clearInterval(clickTimer);clicks=0;clickGameRunning=true;document.getElementById("score").innerText="0";let timeLeft=10;document.getElementById("gameTime").innerText="10 seconds left";clickTimer=setInterval(function(){timeLeft--;document.getElementById("gameTime").innerText=timeLeft+" seconds left";if(timeLeft<=0){clearInterval(clickTimer);clickGameRunning=false;document.getElementById("gameTime").innerText="Finished. Score: "+clicks}},1000)}
+function clickGame(){if(!clickGameRunning)return;clicks++;document.getElementById("score").innerText=clicks}
 
-function startClickGame() {
-  clearInterval(clickTimer);
+/* ═══ THEMES ═══ */
+function changeTheme(type){let colour="";if(type==="blue"){colour="linear-gradient(135deg,#244b72,#141e30)"}if(type==="purple"){colour="linear-gradient(135deg,#542c68,#17132b)"}if(type==="green"){colour="linear-gradient(135deg,#245b42,#101d18)"}document.body.style.background=colour}
+function resetTheme(){document.body.style.background="linear-gradient(rgba(0,0,0,.15), rgba(0,0,0,.15)), url('https://images.unsplash.com/photo-1534791547706-3c4b7b76c8f8?auto=format&fit=crop&w=2200&q=85')";document.body.style.backgroundSize="cover";document.body.style.backgroundPosition="center"}
 
-  clicks = 0;
-  clickGameRunning = true;
+/* ═══ NOTIFICATION ═══ */
+function notifyUser(){let notification=document.getElementById("notice");notification.style.display="block";setTimeout(function(){notification.style.display="none"},3000)}
 
-  document.getElementById("score").innerText = "0";
-
-  let timeLeft = 10;
-  document.getElementById("gameTime").innerText = "10 seconds left";
-
-  clickTimer = setInterval(function() {
-    timeLeft--;
-
-    document.getElementById("gameTime").innerText =
-      timeLeft + " seconds left";
-
-    if (timeLeft <= 0) {
-      clearInterval(clickTimer);
-      clickGameRunning = false;
-
-      document.getElementById("gameTime").innerText =
-        "Finished. Score: " + clicks;
-    }
-  }, 1000);
-}
-
-function clickGame() {
-  if (!clickGameRunning) return;
-
-  clicks++;
-  document.getElementById("score").innerText = clicks;
-}
-
-
-/* -------------------------
-   THEMES
--------------------------- */
-
-function changeTheme(type) {
-  let colour = "";
-
-  if (type === "blue") {
-    colour = "linear-gradient(135deg, #244b72, #141e30)";
-  }
-
-  if (type === "purple") {
-    colour = "linear-gradient(135deg, #542c68, #17132b)";
-  }
-
-  if (type === "green") {
-    colour = "linear-gradient(135deg, #245b42, #101d18)";
-  }
-
-  document.body.style.background = colour;
-}
-
-function resetTheme() {
-  document.body.style.background =
-    "linear-gradient(rgba(0,0,0,.15), rgba(0,0,0,.15)), " +
-    "url('https://images.unsplash.com/photo-1534791547706-3c4b7b76c8f8?auto=format&fit=crop&w=2200&q=85')";
-
-  document.body.style.backgroundSize = "cover";
-  document.body.style.backgroundPosition = "center";
-}
-
-
-/* -------------------------
-   NOTIFICATION
--------------------------- */
-
-function notifyUser() {
-  let notification = document.getElementById("notice");
-
-  notification.style.display = "block";
-
-  setTimeout(function() {
-    notification.style.display = "none";
-  }, 3000);
-}
-
-
-/* -------------------------
-   PAINT APP
--------------------------- */
-
-let paintCanvas = document.getElementById("paintCanvas");
-let paintContext = paintCanvas.getContext("2d");
-
-function setupPaint() {
-  paintCanvas.width = paintCanvas.clientWidth;
-  paintCanvas.height = 250;
-
-  paintContext.fillStyle = "white";
-  paintContext.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
-}
-
+/* ═══ PAINT APP ═══ */
+let paintCanvas=document.getElementById("paintCanvas");
+let paintContext=paintCanvas.getContext("2d");
+function setupPaint(){paintCanvas.width=paintCanvas.clientWidth;paintCanvas.height=250;paintContext.fillStyle="white";paintContext.fillRect(0,0,paintCanvas.width,paintCanvas.height)}
 setupPaint();
+let drawingNow=false;
+paintCanvas.addEventListener("mousedown",function(event){drawingNow=true;paintContext.beginPath();paintContext.moveTo(event.offsetX,event.offsetY)});
+paintCanvas.addEventListener("mousemove",function(event){if(!drawingNow)return;paintContext.lineTo(event.offsetX,event.offsetY);paintContext.strokeStyle="#222";paintContext.lineWidth=3;paintContext.stroke()});
+paintCanvas.addEventListener("mouseup",function(){drawingNow=false});
+paintCanvas.addEventListener("mouseleave",function(){drawingNow=false});
+function clearPaint(){paintContext.fillStyle="white";paintContext.fillRect(0,0,paintCanvas.width,paintCanvas.height)}
 
-let drawingNow = false;
-
-paintCanvas.addEventListener("mousedown", function(event) {
-  drawingNow = true;
-
-  paintContext.beginPath();
-  paintContext.moveTo(event.offsetX, event.offsetY);
-});
-
-paintCanvas.addEventListener("mousemove", function(event) {
-  if (!drawingNow) return;
-
-  paintContext.lineTo(event.offsetX, event.offsetY);
-  paintContext.strokeStyle = "#222";
-  paintContext.lineWidth = 3;
-  paintContext.stroke();
-});
-
-paintCanvas.addEventListener("mouseup", function() {
-  drawingNow = false;
-});
-
-paintCanvas.addEventListener("mouseleave", function() {
-  drawingNow = false;
-});
-
-function clearPaint() {
-  paintContext.fillStyle = "white";
-  paintContext.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
-}
-
-
-/* -------------------------
-   SNAKE GAME
--------------------------- */
-
-let snakeCanvas = document.getElementById("snake");
-let snakeContext = snakeCanvas.getContext("2d");
-
-let snake = [];
-let food = {
-  x: 120,
-  y: 100
-};
-
-let snakeDirection = "right";
+/* ═══ SNAKE GAME ═══ */
+let snakeCanvas=document.getElementById("snake");
+let snakeContext=snakeCanvas.getContext("2d");
+let snake=[];
+let food={x:120,y:100};
+let snakeDirection="right";
 let snakeInterval;
-
-function startSnake() {
-  clearInterval(snakeInterval);
-
-  snake = [
-    { x: 100, y: 100 },
-    { x: 80, y: 100 },
-    { x: 60, y: 100 }
-  ];
-
-  snakeDirection = "right";
-
-  snakeInterval = setInterval(drawSnake, 130);
-}
-
-document.addEventListener("keydown", function(event) {
-  if (event.key === "ArrowUp" && snakeDirection !== "down") {
-    snakeDirection = "up";
-  }
-
-  if (event.key === "ArrowDown" && snakeDirection !== "up") {
-    snakeDirection = "down";
-  }
-
-  if (event.key === "ArrowLeft" && snakeDirection !== "right") {
-    snakeDirection = "left";
-  }
-
-  if (event.key === "ArrowRight" && snakeDirection !== "left") {
-    snakeDirection = "right";
-  }
-});
-
-function drawSnake() {
-  snakeContext.fillStyle = "#111";
-  snakeContext.fillRect(0, 0, 300, 300);
-
-  let head = {
-    x: snake[0].x,
-    y: snake[0].y
-  };
-
-  if (snakeDirection === "right") head.x += 20;
-  if (snakeDirection === "left") head.x -= 20;
-  if (snakeDirection === "up") head.y -= 20;
-  if (snakeDirection === "down") head.y += 20;
-
-  if (
-    head.x < 0 ||
-    head.x >= 300 ||
-    head.y < 0 ||
-    head.y >= 300
-  ) {
-    clearInterval(snakeInterval);
-    alert("Oops. Snake crashed.");
-    return;
-  }
-
-  snake.unshift(head);
-
-  if (head.x === food.x && head.y === food.y) {
-    food = {
-      x: Math.floor(Math.random() * 15) * 20,
-      y: Math.floor(Math.random() * 15) * 20
-    };
-  } else {
-    snake.pop();
-  }
-
-  snakeContext.fillStyle = "#36c759";
-
-  snake.forEach(function(part) {
-    snakeContext.fillRect(part.x, part.y, 18, 18);
-  });
-
-  snakeContext.fillStyle = "#ff453a";
-  snakeContext.fillRect(food.x, food.y, 18, 18);
-}
+function startSnake(){clearInterval(snakeInterval);snake=[{x:100,y:100},{x:80,y:100},{x:60,y:100}];snakeDirection="right";snakeInterval=setInterval(drawSnake,130)}
+document.addEventListener("keydown",function(event){if(event.key==="ArrowUp"&&snakeDirection!=="down"){snakeDirection="up"}if(event.key==="ArrowDown"&&snakeDirection!=="up"){snakeDirection="down"}if(event.key==="ArrowLeft"&&snakeDirection!=="right"){snakeDirection="left"}if(event.key==="ArrowRight"&&snakeDirection!=="left"){snakeDirection="right"}});
+function drawSnake(){snakeContext.fillStyle="#111";snakeContext.fillRect(0,0,300,300);let head={x:snake[0].x,y:snake[0].y};if(snakeDirection==="right")head.x+=20;if(snakeDirection==="left")head.x-=20;if(snakeDirection==="up")head.y-=20;if(snakeDirection==="down")head.y+=20;if(head.x<0||head.x>=300||head.y<0||head.y>=300){clearInterval(snakeInterval);alert("Oops. Snake crashed.");return}snake.unshift(head);if(head.x===food.x&&head.y===food.y){food={x:Math.floor(Math.random()*15)*20,y:Math.floor(Math.random()*15)*20}}else{snake.pop()}snakeContext.fillStyle="#36c759";snake.forEach(function(part){snakeContext.fillRect(part.x,part.y,18,18)});snakeContext.fillStyle="#ff453a";snakeContext.fillRect(food.x,food.y,18,18)}
 </script>
 
 </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
+</html>console.warn("Deprecated method used.");
+  
