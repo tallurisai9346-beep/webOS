@@ -1,33 +1,51 @@
-# WebOS 1
+# Clumsy Mac WebOS
 
-Simple web based 'desktop' project which is intended to be experienced as something like the smallest possible operating system.
+I made this basic interactive WebOS-like website using HTML, CSS and JavaScript which gives the computer desktop environment in browser with useful apps, tools, games and settings
 
-Features
+## Features
 
-Desktop-like interface
+Desktop-like user-interface
+File Manager
+Calculator
+Notes application
+Mini Paint
+Terminal
+Music player
+Movie section (searchable)
+Game Center
+Snake game
+Click Challenge game
+System Settings
+Theme customisation
+Notifications
+Local Storage of notes and settings
+Responsive Design
 
-Apps/windows
+## Technologies
 
-'Games'
-
-Music and movies
-
-Simplicity and approachability
-
-Visual appeal
-
-Built With
-
-HTML
-
-CSS
-
+HTML5
+CSS3
 JavaScript
+LocalStorage
+Vercel
 
-Live Demo
+## How to use
 
-https://web-os-opal.vercel.aapp/ven
+Open the website on your browser and interact with desktop icons to open apps.
 
-About
+You can use the tools provided, play games, make notes, customise the settings and have fun with the WebOS environment
 
-The project was merely a means to an end of practicing web developement while building something resembling a desktop application for the web.
+## Made this project to
+
+practice frontend development and create browser-based operating system experience with attractive and interactive interface
+
+## Live Website
+
+https://web-os-opal.vercel.app/
+
+## Author
+
+Talluri Venkata Sai Kumar
+
+B.Tech - Artificial Intelligence and Machine Learning
+Mohan Babu University
