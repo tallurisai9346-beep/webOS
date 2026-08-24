@@ -1,4 +1,4 @@
-# Clumsy Mac WebOS
+# Mac WebOS
 
 I made this basic interactive WebOS-like website using HTML, CSS and JavaScript which gives the computer desktop environment in browser with useful apps, tools, games and settings
 
