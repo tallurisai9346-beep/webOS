@@ -47,5 +47,3 @@ https://web-os-opal.vercel.app/
 
 Talluri Venkata Sai Kumar
 
-B.Tech - Artificial Intelligence and Machine Learning
-Mohan Babu University
