@@ -301,52 +301,41 @@ canvas{display:block;width:100%;height:250px;background:white;border:1px solid #
 <div class="notice" id="notice">🔔 Hello from your clumsy Mac WebOS</div>
 
 <script>
-/* ═══ CLOCK ═══ */
 function updateClock(){let now=new Date();document.getElementById("clock").innerText=now.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
 updateClock();setInterval(updateClock,1000);
 
-/* ═══ OPEN AND CLOSE WINDOWS ═══ */
 let zIndexNumber=20;
 function openWin(id){let win=document.getElementById(id);win.style.display="block";zIndexNumber++;win.style.zIndex=zIndexNumber}
 function closeWin(id){document.getElementById(id).style.display="none"}
 function fullWindow(id){let win=document.getElementById(id);if(win.classList.contains("big-window")){win.classList.remove("big-window");win.style.width="470px";win.style.height="";win.style.left="200px";win.style.top="100px"}else{win.classList.add("big-window");win.style.width="calc(100vw - 40px)";win.style.height="calc(100vh - 80px)";win.style.left="20px";win.style.top="45px"}}
 
-/* ═══ DRAG WINDOWS ═══ */
 document.querySelectorAll(".window").forEach(function(win){let bar=win.querySelector(".titlebar");let dragging=false;let differenceX=0;let differenceY=0;bar.addEventListener("mousedown",function(event){dragging=true;zIndexNumber++;win.style.zIndex=zIndexNumber;differenceX=event.clientX-win.offsetLeft;differenceY=event.clientY-win.offsetTop});document.addEventListener("mousemove",function(event){if(!dragging)return;let newX=event.clientX-differenceX;let newY=event.clientY-differenceY;if(newX<0)newX=0;if(newY<30)newY=30;win.style.left=newX+"px";win.style.top=newY+"px"});document.addEventListener("mouseup",function(){dragging=false})});
 
-/* ═══ NOTES ═══ */
 let notesBox=document.getElementById("notesBox");
 notesBox.value=localStorage.getItem("clumsyNotes")||"";
 notesBox.addEventListener("input",function(){localStorage.setItem("clumsyNotes",notesBox.value)});
 
-/* ═══ CALCULATOR ═══ */
 let calculation="";
 function calcAdd(value){calculation+=value;document.getElementById("calcDisplay").innerText=calculation}
 function calcClear(){calculation="";document.getElementById("calcDisplay").innerText="0"}
 function calcResult(){try{calculation=String(Function("return "+calculation)());document.getElementById("calcDisplay").innerText=calculation}catch(error){calculation="";document.getElementById("calcDisplay").innerText="Error"}}
 
-/* ═══ TERMINAL ═══ */
 function terminal(event){if(event.key!=="Enter")return;let input=document.getElementById("terminalInput");let output=document.getElementById("terminalOutput");let command=input.value.trim().toLowerCase();if(command==="help"){output.innerHTML+="<br>help - show commands<br>date - show date<br>apps - show apps<br>clear - clear screen"}else if(command==="date"){output.innerHTML+="<br>"+new Date()}else if(command==="apps"){output.innerHTML+="<br>Files, Games, Music, Movies, Notes, Paint, Calculator"}else if(command==="clear"){output.innerHTML=""}else if(command!==""){output.innerHTML+="<br>Unknown command: "+command}input.value=""}
 
-/* ═══ SEARCH ═══ */
 function searchFiles(value){value=value.toLowerCase();document.querySelectorAll("#fileList .card").forEach(function(file){if(file.innerText.toLowerCase().includes(value)){file.style.display="block"}else{file.style.display="none"}})}
 function searchMovies(value){value=value.toLowerCase();document.querySelectorAll("#movieList .movie").forEach(function(movie){if(movie.innerText.toLowerCase().includes(value)){movie.style.display="block"}else{movie.style.display="none"}})}
 
-/* ═══ CLICK GAME ═══ */
 let clicks=0;
 let clickGameRunning=false;
 let clickTimer;
 function startClickGame(){clearInterval(clickTimer);clicks=0;clickGameRunning=true;document.getElementById("score").innerText="0";let timeLeft=10;document.getElementById("gameTime").innerText="10 seconds left";clickTimer=setInterval(function(){timeLeft--;document.getElementById("gameTime").innerText=timeLeft+" seconds left";if(timeLeft<=0){clearInterval(clickTimer);clickGameRunning=false;document.getElementById("gameTime").innerText="Finished. Score: "+clicks}},1000)}
 function clickGame(){if(!clickGameRunning)return;clicks++;document.getElementById("score").innerText=clicks}
 
-/* ═══ THEMES ═══ */
 function changeTheme(type){let colour="";if(type==="blue"){colour="linear-gradient(135deg,#244b72,#141e30)"}if(type==="purple"){colour="linear-gradient(135deg,#542c68,#17132b)"}if(type==="green"){colour="linear-gradient(135deg,#245b42,#101d18)"}document.body.style.background=colour}
 function resetTheme(){document.body.style.background="linear-gradient(rgba(0,0,0,.15), rgba(0,0,0,.15)), url('https://images.unsplash.com/photo-1534791547706-3c4b7b76c8f8?auto=format&fit=crop&w=2200&q=85')";document.body.style.backgroundSize="cover";document.body.style.backgroundPosition="center"}
 
-/* ═══ NOTIFICATION ═══ */
 function notifyUser(){let notification=document.getElementById("notice");notification.style.display="block";setTimeout(function(){notification.style.display="none"},3000)}
 
-/* ═══ PAINT APP ═══ */
 let paintCanvas=document.getElementById("paintCanvas");
 let paintContext=paintCanvas.getContext("2d");
 function setupPaint(){paintCanvas.width=paintCanvas.clientWidth;paintCanvas.height=250;paintContext.fillStyle="white";paintContext.fillRect(0,0,paintCanvas.width,paintCanvas.height)}
@@ -358,7 +347,6 @@ paintCanvas.addEventListener("mouseup",function(){drawingNow=false});
 paintCanvas.addEventListener("mouseleave",function(){drawingNow=false});
 function clearPaint(){paintContext.fillStyle="white";paintContext.fillRect(0,0,paintCanvas.width,paintCanvas.height)}
 
-/* ═══ SNAKE GAME ═══ */
 let snakeCanvas=document.getElementById("snake");
 let snakeContext=snakeCanvas.getContext("2d");
 let snake=[];
