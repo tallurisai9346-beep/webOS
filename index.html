@@ -6,40 +6,270 @@
 <title>Sai Mac OS</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;height:100vh;overflow:hidden;font:13px Arial;background:#38546b}
-.main-header{height:34px;padding:0 12px;display:flex;align-items:center;background:#222;color:#fff;position:fixed;top:0;width:100%;z-index:9}
-.main-header h1{font-size:13px;margin:0}
-.main-header .menu{display:flex;gap:12px;margin-left:20px}
-.main-header .right{margin-left:auto;display:flex;gap:10px}
-.desktop-icons{position:fixed;top:48px;right:15px}
-.desktop-icon{width:70px;margin-bottom:10px;text-align:center;color:#fff;cursor:pointer}
-.desktop-icon .picture{font-size:30px}
-.desktop-icon p{margin:2px}
-.window{position:absolute;width:450px;display:none;background:#fff;border:1px solid #888;border-radius:6px;overflow:hidden}
-.window-title{height:34px;display:flex;align-items:center;justify-content:center;background:#ddd;border-bottom:1px solid #aaa;cursor:move;position:relative}
-.window-buttons{position:absolute;left:8px;display:flex;gap:5px}
-.window-button{width:12px;height:12px;border:0;border-radius:50%;padding:0}
-.close{background:#f55}.minimize{background:#fc3}.maximize{background:#2c5}
-.window-content{padding:10px;max-height:calc(100vh - 70px);overflow:auto}
-button,input,textarea{font:inherit}
-button{padding:6px 9px;border:1px solid #999;border-radius:4px;cursor:pointer}
-button:hover{background:#ddd}
-.card{padding:8px;margin-bottom:7px;background:#f4f4f4;border:1px solid #ddd}
-.search,textarea{width:100%;padding:7px;border:1px solid #999}
-textarea{height:160px}
-#calcDisplay{padding:10px;margin-bottom:7px;background:#222;color:#fff;text-align:right;font-size:19px}
-.calculator-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.calculator-buttons button{height:38px}
-.terminal{height:210px;padding:8px;background:#111;color:#8e8;font:13px monospace;overflow:auto}
-.terminal input{width:80%;background:none;color:#fff;border:0;outline:0;font:13px monospace}
-#paintCanvas{width:100%;height:260px;background:#fff;border:1px solid #999;touch-action:none}
-#snakeCanvas{display:block;width:300px;height:300px;margin:auto;background:#111}
-audio,video{width:100%}
-.dock{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:4px;padding:5px;background:#eee;border:1px solid #999;z-index:8}
-.dock button{width:40px;height:40px;padding:0;font-size:19px}
-.notice{display:none;position:fixed;top:45px;right:10px;padding:10px;background:#fff;border:1px solid #999;z-index:10}
-@media(max-width:600px){.window{width:calc(100% - 20px);left:10px!important}.main-header .menu{display:none}}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  background: #38546b;
+}
+
+/* header */
+.main-header {
+  height: 34px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  background: #222;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+}
+
+.main-header h1 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.main-header .menu {
+  display: flex;
+  gap: 12px;
+  margin-left: 20px;
+}
+
+.main-header .right {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+/* desktop icons */
+.desktop-icons {
+  position: fixed;
+  top: 48px;
+  right: 15px;
+}
+
+.desktop-icon {
+  width: 70px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+}
+
+.desktop-icon .picture {
+  font-size: 30px;
+}
+
+.desktop-icon p {
+  margin: 2px;
+}
+
+/* windows */
+.window {
+  position: absolute;
+  width: 450px;
+  display: none;
+  background: #fff;
+  border: 1px solid #888;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.window-title {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ddd;
+  border-bottom: 1px solid #aaa;
+  position: relative;
+  cursor: move;
+}
+
+.window-buttons {
+  position: absolute;
+  left: 8px;
+  display: flex;
+  gap: 5px;
+}
+
+.window-button {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+}
+
+.close {
+  background: #f55;
+}
+
+.minimize {
+  background: #fc3;
+}
+
+.maximize {
+  background: #2c5;
+}
+
+.window-content {
+  padding: 10px;
+  max-height: calc(100vh - 70px);
+  overflow: auto;
+}
+
+/* buttons and text fields */
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  padding: 6px 9px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ddd;
+}
+
+.card {
+  padding: 8px;
+  margin-bottom: 7px;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+}
+
+.search,
+textarea {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #999;
+}
+
+textarea {
+  height: 160px;
+}
+
+/* calculator */
+#calcDisplay {
+  padding: 10px;
+  margin-bottom: 7px;
+  background: #222;
+  color: #fff;
+  text-align: right;
+  font-size: 19px;
+}
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.calculator-buttons button {
+  height: 38px;
+}
+
+/* terminal */
+.terminal {
+  height: 210px;
+  padding: 8px;
+  background: #111;
+  color: #8e8;
+  font: 13px monospace;
+  overflow: auto;
+}
+
+.terminal input {
+  width: 80%;
+  background: none;
+  color: #fff;
+  border: 0;
+  outline: 0;
+  font: 13px monospace;
+}
+
+/* paint and games */
+#paintCanvas {
+  width: 100%;
+  height: 260px;
+  background: #fff;
+  border: 1px solid #999;
+  touch-action: none;
+}
+
+#snakeCanvas {
+  display: block;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  background: #111;
+}
+
+audio,
+video {
+  width: 100%;
+}
+
+/* bottom dock */
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: #eee;
+  border: 1px solid #999;
+  z-index: 8;
+}
+
+.dock button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 19px;
+}
+
+/* notification */
+.notice {
+  display: none;
+  position: fixed;
+  top: 45px;
+  right: 10px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #999;
+  z-index: 10;
+}
+
+@media (max-width: 600px) {
+  .window {
+    width: calc(100% - 20px);
+    left: 10px !important;
+  }
+
+  .main-header .menu {
+    display: none;
+  }
+}
 </style>
 </head>
 
@@ -375,7 +605,7 @@ function maximizeApp(id){
 }
 
 
-/* move windows */
+/* moving a window */
 
 document.querySelectorAll(".window-title").forEach(function(title){
 
@@ -406,7 +636,7 @@ document.querySelectorAll(".window-title").forEach(function(title){
 });
 
 
-/* notes */
+/* save notes */
 
 var notes=document.getElementById("notesBox");
 
@@ -417,7 +647,7 @@ notes.oninput=function(){
 };
 
 
-/* calculator */
+/* simple calculator */
 
 var exp="";
 
@@ -477,7 +707,7 @@ function calcAnswer(){
 }
 
 
-/* files */
+/* file search */
 
 function searchFiles(text){
 
@@ -492,7 +722,7 @@ function searchFiles(text){
 }
 
 
-/* music */
+/* music player */
 
 document.getElementById("musicFile").onchange=function(){
 
@@ -509,7 +739,7 @@ document.getElementById("musicFile").onchange=function(){
 };
 
 
-/* video */
+/* video player */
 
 document.getElementById("videoFile").onchange=function(){
 
@@ -526,7 +756,7 @@ document.getElementById("videoFile").onchange=function(){
 };
 
 
-/* terminal */
+/* terminal commands */
 
 function terminalCommand(e){
 
@@ -559,7 +789,7 @@ function terminalCommand(e){
 }
 
 
-/* settings */
+/* desktop settings */
 
 function setTheme(color){
     document.body.style.background=color;
@@ -577,7 +807,7 @@ function showNotice(){
 }
 
 
-/* paint */
+/* paint area */
 
 var canvas=document.getElementById("paintCanvas");
 var ctx=canvas.getContext("2d");
@@ -688,7 +918,7 @@ function clickGame(){
 }
 
 
-/* snake */
+/* snake game */
 
 var snakeCanvas=document.getElementById("snakeCanvas");
 var sctx=snakeCanvas.getContext("2d");
