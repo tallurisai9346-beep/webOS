@@ -2,90 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sai Mac OS</title>
+
 <style>
 *{box-sizing:border-box}
-html,body{width:100%;height:100%}
-body{margin:0;overflow:hidden;font-family:Arial,sans-serif;background:#38546b;color:#222}
-.menu{height:32px;position:fixed;left:0;top:0;width:100%;display:flex;align-items:center;gap:14px;padding:0 12px;background:#222;color:#fff;font-size:13px;z-index:9000}
-.menu-right{margin-left:auto;display:flex;gap:12px}
-.icons{position:fixed;right:15px;top:48px;width:80px;z-index:2}
-.icon{width:80px;margin-bottom:14px;text-align:center;color:#fff;cursor:pointer;text-shadow:0 1px 3px #000}
-.icon div{font-size:34px}
-.icon p{margin:3px 0;font-size:12px}
-.window{position:absolute;width:470px;display:none;background:#fff;border:1px solid #888;border-radius:7px;box-shadow:0 8px 20px #0005;overflow:hidden}
-.title{height:36px;position:relative;display:flex;align-items:center;background:#e6e6e6;border-bottom:1px solid #bbb;cursor:move}
-.title-name{width:100%;text-align:center;font-size:13px;font-weight:bold}
-.lights{position:absolute;left:10px;display:flex;gap:6px}
-.light{width:13px;height:13px;padding:0;border:0;border-radius:50%;cursor:pointer}
-.red{background:#ff5b55}.yellow{background:#ffbd35}.green{background:#2bc84a}
-.content{padding:12px;max-height:calc(100vh - 75px);overflow:auto}
-button{padding:7px 11px;border:1px solid #999;border-radius:5px;background:#eee;cursor:pointer}
+body{margin:0;height:100vh;overflow:hidden;font:13px Arial;background:#38546b}
+.main-header{height:34px;padding:0 12px;display:flex;align-items:center;background:#222;color:#fff;position:fixed;top:0;width:100%;z-index:9}
+.main-header h1{font-size:13px;margin:0}
+.main-header .menu{display:flex;gap:12px;margin-left:20px}
+.main-header .right{margin-left:auto;display:flex;gap:10px}
+.desktop-icons{position:fixed;top:48px;right:15px}
+.desktop-icon{width:70px;margin-bottom:10px;text-align:center;color:#fff;cursor:pointer}
+.desktop-icon .picture{font-size:30px}
+.desktop-icon p{margin:2px}
+.window{position:absolute;width:450px;display:none;background:#fff;border:1px solid #888;border-radius:6px;overflow:hidden}
+.window-title{height:34px;display:flex;align-items:center;justify-content:center;background:#ddd;border-bottom:1px solid #aaa;cursor:move;position:relative}
+.window-buttons{position:absolute;left:8px;display:flex;gap:5px}
+.window-button{width:12px;height:12px;border:0;border-radius:50%;padding:0}
+.close{background:#f55}.minimize{background:#fc3}.maximize{background:#2c5}
+.window-content{padding:10px;max-height:calc(100vh - 70px);overflow:auto}
+button,input,textarea{font:inherit}
+button{padding:6px 9px;border:1px solid #999;border-radius:4px;cursor:pointer}
 button:hover{background:#ddd}
-.card{padding:10px;margin-bottom:8px;background:#f5f5f5;border:1px solid #ddd;border-radius:5px}
-.card h3{margin:0 0 8px;font-size:14px}
-.search{width:100%;padding:8px;margin-bottom:9px;border:1px solid #999;border-radius:5px}
-textarea{width:100%;height:180px;padding:8px;resize:none;border:1px solid #999;border-radius:5px;font-family:Arial}
-#calcDisplay{height:45px;padding:10px;margin-bottom:8px;background:#222;color:#fff;border-radius:5px;text-align:right;font-size:20px}
-.calc{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
-.calc button{height:40px}
-.terminal{height:220px;padding:10px;background:#111;color:#8ee67a;border-radius:5px;font:13px monospace;overflow:auto}
-.terminal input{width:80%;border:0;outline:0;background:none;color:#fff;font:13px monospace}
-#paintCanvas{display:block;width:100%;height:280px;background:#fff;border:1px solid #999;touch-action:none}
-#snakeCanvas{display:block;width:300px;height:300px;margin-left:auto;margin-right:auto;background:#111}
-audio,video{width:100%;margin-top:8px}
-.dock{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:5px;padding:6px;background:#eee;border:1px solid #aaa;border-radius:9px;z-index:8000}
-.dock button{width:44px;height:44px;padding:0;font-size:21px}
-.notice{display:none;position:fixed;right:15px;top:45px;padding:12px;background:#fff;border:1px solid #999;border-radius:6px;z-index:10000}
-@media(max-width:650px){
-.window{width:calc(100% - 20px);left:10px!important}
-.icons{right:2px}
-.menu span{display:none}
-.dock{max-width:96%;overflow-x:auto}
-}
+.card{padding:8px;margin-bottom:7px;background:#f4f4f4;border:1px solid #ddd}
+.search,textarea{width:100%;padding:7px;border:1px solid #999}
+textarea{height:160px}
+#calcDisplay{padding:10px;margin-bottom:7px;background:#222;color:#fff;text-align:right;font-size:19px}
+.calculator-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.calculator-buttons button{height:38px}
+.terminal{height:210px;padding:8px;background:#111;color:#8e8;font:13px monospace;overflow:auto}
+.terminal input{width:80%;background:none;color:#fff;border:0;outline:0;font:13px monospace}
+#paintCanvas{width:100%;height:260px;background:#fff;border:1px solid #999;touch-action:none}
+#snakeCanvas{display:block;width:300px;height:300px;margin:auto;background:#111}
+audio,video{width:100%}
+.dock{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:4px;padding:5px;background:#eee;border:1px solid #999;z-index:8}
+.dock button{width:40px;height:40px;padding:0;font-size:19px}
+.notice{display:none;position:fixed;top:45px;right:10px;padding:10px;background:#fff;border:1px solid #999;z-index:10}
+@media(max-width:600px){.window{width:calc(100% - 20px);left:10px!important}.main-header .menu{display:none}}
 </style>
 </head>
 
 <body>
 
+<header class="main-header">
+<h1>Sai Mac OS</h1>
 <div class="menu">
-<b>●</b>
-<b>Sai Mac OS</b>
-<span>File</span>
-<span>Edit</span>
-<span>View</span>
-<span>Window</span>
-<div class="menu-right">
-<span>Wi-Fi</span>
-<span>🔋</span>
-<span id="clock">00:00</span>
+<span>File</span><span>Edit</span><span>View</span><span>Window</span>
 </div>
+<div class="right">
+<span>Wi-Fi</span><span>🔋</span><span id="clock">00:00</span>
+</div>
+</header>
+
+<div class="desktop-icons">
+<div class="desktop-icon" onclick="openApp('files')"><div class="picture">📁</div><p>Files</p></div>
+<div class="desktop-icon" onclick="openApp('games')"><div class="picture">🎮</div><p>Games</p></div>
+<div class="desktop-icon" onclick="openApp('music')"><div class="picture">🎵</div><p>Music</p></div>
+<div class="desktop-icon" onclick="openApp('movies')"><div class="picture">🎬</div><p>Movies</p></div>
+<div class="desktop-icon" onclick="openApp('notes')"><div class="picture">📝</div><p>Notes</p></div>
+<div class="desktop-icon" onclick="openApp('paint')"><div class="picture">🎨</div><p>Paint</p></div>
+<div class="desktop-icon" onclick="openApp('calculator')"><div class="picture">🔢</div><p>Calculator</p></div>
+<div class="desktop-icon" onclick="openApp('terminal')"><div class="picture">⌨️</div><p>Terminal</p></div>
+<div class="desktop-icon" onclick="openApp('settings')"><div class="picture">⚙️</div><p>Settings</p></div>
 </div>
 
-<div class="icons">
-<div class="icon" onclick="openApp('files')"><div>📁</div><p>Files</p></div>
-<div class="icon" onclick="openApp('games')"><div>🎮</div><p>Games</p></div>
-<div class="icon" onclick="openApp('music')"><div>🎵</div><p>Music</p></div>
-<div class="icon" onclick="openApp('movies')"><div>🎬</div><p>Movies</p></div>
-<div class="icon" onclick="openApp('notes')"><div>📝</div><p>Notes</p></div>
-<div class="icon" onclick="openApp('paint')"><div>🎨</div><p>Paint</p></div>
-<div class="icon" onclick="openApp('calculator')"><div>🔢</div><p>Calculator</p></div>
-<div class="icon" onclick="openApp('terminal')"><div>⌨️</div><p>Terminal</p></div>
-<div class="icon" onclick="openApp('settings')"><div>⚙️</div><p>Settings</p></div>
-</div>
 
 <!-- FILES -->
-<div class="window" id="files" style="left:120px;top:70px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('files')"></button>
-<button class="light yellow" onclick="minimizeApp('files')"></button>
-<button class="light green" onclick="maximizeApp('files')"></button>
+
+<div class="window" id="files" style="left:100px;top:65px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('files')"></button>
+<button class="window-button minimize" onclick="minimizeApp('files')"></button>
+<button class="window-button maximize" onclick="maximizeApp('files')"></button>
 </div>
-<div class="title-name">My Files</div>
+Files
 </div>
-<div class="content">
+
+<div class="window-content">
 <input class="search" placeholder="Search files..." oninput="searchFiles(this.value)">
 <div id="fileList">
 <div class="card">📄 index.html</div>
@@ -98,65 +93,77 @@ audio,video{width:100%;margin-top:8px}
 </div>
 </div>
 
+
 <!-- GAMES -->
-<div class="window" id="games" style="left:230px;top:70px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('games')"></button>
-<button class="light yellow" onclick="minimizeApp('games')"></button>
-<button class="light green" onclick="maximizeApp('games')"></button>
+
+<div class="window" id="games" style="left:220px;top:65px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('games')"></button>
+<button class="window-button minimize" onclick="minimizeApp('games')"></button>
+<button class="window-button maximize" onclick="maximizeApp('games')"></button>
 </div>
-<div class="title-name">Games</div>
+Games
 </div>
-<div class="content">
+
+<div class="window-content">
+
 <div class="card">
 <h3>Click Game</h3>
-<p>Get as many clicks as possible in 10 seconds.</p>
+<p>Click as many times as possible.</p>
 <h2 id="score">0</h2>
 <button onclick="startClickGame()">Start</button>
 <button onclick="clickGame()">Click</button>
 <p id="gameStatus">Ready</p>
 </div>
+
 <div class="card">
 <h3>Snake</h3>
 <p>Use the arrow keys.</p>
 <button onclick="startSnake()">Start Snake</button>
 <canvas id="snakeCanvas" width="300" height="300"></canvas>
 </div>
+
 </div>
 </div>
 
+
 <!-- MUSIC -->
-<div class="window" id="music" style="left:550px;top:70px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('music')"></button>
-<button class="light yellow" onclick="minimizeApp('music')"></button>
-<button class="light green" onclick="maximizeApp('music')"></button>
+
+<div class="window" id="music" style="left:500px;top:65px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('music')"></button>
+<button class="window-button minimize" onclick="minimizeApp('music')"></button>
+<button class="window-button maximize" onclick="maximizeApp('music')"></button>
 </div>
-<div class="title-name">Music</div>
+Music
 </div>
-<div class="content">
+
+<div class="window-content">
 <div class="card">
 <h3>Music Player</h3>
 <input type="file" id="musicFile" accept="audio/*">
-<p id="musicName">Choose an audio file.</p>
+<p id="musicName">Choose a music file.</p>
 <audio id="audioPlayer" controls></audio>
 </div>
 </div>
 </div>
 
+
 <!-- MOVIES -->
-<div class="window" id="movies" style="left:500px;top:300px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('movies')"></button>
-<button class="light yellow" onclick="minimizeApp('movies')"></button>
-<button class="light green" onclick="maximizeApp('movies')"></button>
+
+<div class="window" id="movies" style="left:480px;top:290px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('movies')"></button>
+<button class="window-button minimize" onclick="minimizeApp('movies')"></button>
+<button class="window-button maximize" onclick="maximizeApp('movies')"></button>
 </div>
-<div class="title-name">Movies</div>
+Movies
 </div>
-<div class="content">
+
+<div class="window-content">
 <div class="card">
 <h3>Video Player</h3>
 <input type="file" id="videoFile" accept="video/*">
@@ -166,106 +173,127 @@ audio,video{width:100%;margin-top:8px}
 </div>
 </div>
 
+
 <!-- NOTES -->
-<div class="window" id="notes" style="left:120px;top:320px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('notes')"></button>
-<button class="light yellow" onclick="minimizeApp('notes')"></button>
-<button class="light green" onclick="maximizeApp('notes')"></button>
+
+<div class="window" id="notes" style="left:100px;top:310px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('notes')"></button>
+<button class="window-button minimize" onclick="minimizeApp('notes')"></button>
+<button class="window-button maximize" onclick="maximizeApp('notes')"></button>
 </div>
-<div class="title-name">Notes</div>
+Notes
 </div>
-<div class="content">
+
+<div class="window-content">
 <textarea id="notesBox" placeholder="Write your notes here..."></textarea>
-<p>Saved automatically in your browser.</p>
+<p>Saved automatically.</p>
 </div>
 </div>
 
+
 <!-- PAINT -->
-<div class="window" id="paint" style="left:580px;top:350px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('paint')"></button>
-<button class="light yellow" onclick="minimizeApp('paint')"></button>
-<button class="light green" onclick="maximizeApp('paint')"></button>
+
+<div class="window" id="paint" style="left:560px;top:330px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('paint')"></button>
+<button class="window-button minimize" onclick="minimizeApp('paint')"></button>
+<button class="window-button maximize" onclick="maximizeApp('paint')"></button>
 </div>
-<div class="title-name">Paint</div>
+Paint
 </div>
-<div class="content">
+
+<div class="window-content">
 <canvas id="paintCanvas"></canvas>
 <br>
 <button onclick="clearPaint()">Clear</button>
 </div>
 </div>
 
+
 <!-- CALCULATOR -->
-<div class="window" id="calculator" style="left:390px;top:100px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('calculator')"></button>
-<button class="light yellow" onclick="minimizeApp('calculator')"></button>
-<button class="light green" onclick="maximizeApp('calculator')"></button>
+
+<div class="window" id="calculator" style="left:380px;top:90px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('calculator')"></button>
+<button class="window-button minimize" onclick="minimizeApp('calculator')"></button>
+<button class="window-button maximize" onclick="maximizeApp('calculator')"></button>
 </div>
-<div class="title-name">Calculator</div>
+Calculator
 </div>
-<div class="content">
+
+<div class="window-content">
 <div id="calcDisplay">0</div>
-<div class="calc">
+
+<div class="calculator-buttons">
 <button onclick="calcAdd('7')">7</button>
 <button onclick="calcAdd('8')">8</button>
 <button onclick="calcAdd('9')">9</button>
 <button onclick="calcAdd('/')">÷</button>
+
 <button onclick="calcAdd('4')">4</button>
 <button onclick="calcAdd('5')">5</button>
 <button onclick="calcAdd('6')">6</button>
 <button onclick="calcAdd('*')">×</button>
+
 <button onclick="calcAdd('1')">1</button>
 <button onclick="calcAdd('2')">2</button>
 <button onclick="calcAdd('3')">3</button>
 <button onclick="calcAdd('-')">−</button>
+
 <button onclick="calcAdd('0')">0</button>
 <button onclick="calcAdd('.')">.</button>
 <button onclick="calcClear()">C</button>
 <button onclick="calcAdd('+')">+</button>
+
 <button onclick="calcAnswer()" style="grid-column:span 4">=</button>
 </div>
 </div>
 </div>
 
+
 <!-- TERMINAL -->
-<div class="window" id="terminal" style="left:690px;top:150px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('terminal')"></button>
-<button class="light yellow" onclick="minimizeApp('terminal')"></button>
-<button class="light green" onclick="maximizeApp('terminal')"></button>
+
+<div class="window" id="terminal" style="left:650px;top:140px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('terminal')"></button>
+<button class="window-button minimize" onclick="minimizeApp('terminal')"></button>
+<button class="window-button maximize" onclick="maximizeApp('terminal')"></button>
 </div>
-<div class="title-name">Terminal</div>
+Terminal
 </div>
-<div class="content">
+
+<div class="window-content">
 <div class="terminal">
 <div id="terminalOutput">
 Sai Mac OS Terminal<br>
 Type help to see commands.
 </div>
 <br>
-&gt; <input id="terminalInput" onkeydown="terminalCommand(event)">
+&gt;
+<input id="terminalInput" onkeydown="terminalCommand(event)">
 </div>
 </div>
 </div>
 
+
 <!-- SETTINGS -->
-<div class="window" id="settings" style="left:250px;top:170px">
-<div class="title">
-<div class="lights">
-<button class="light red" onclick="closeApp('settings')"></button>
-<button class="light yellow" onclick="minimizeApp('settings')"></button>
-<button class="light green" onclick="maximizeApp('settings')"></button>
+
+<div class="window" id="settings" style="left:240px;top:160px">
+<div class="window-title">
+<div class="window-buttons">
+<button class="window-button close" onclick="closeApp('settings')"></button>
+<button class="window-button minimize" onclick="minimizeApp('settings')"></button>
+<button class="window-button maximize" onclick="maximizeApp('settings')"></button>
 </div>
-<div class="title-name">Settings</div>
+Settings
 </div>
-<div class="content">
+
+<div class="window-content">
 <h3>Desktop</h3>
 <button onclick="setTheme('#38546b')">Blue</button>
 <button onclick="setTheme('#553b62')">Purple</button>
@@ -275,6 +303,9 @@ Type help to see commands.
 <button onclick="showNotice()">Test Notification</button>
 </div>
 </div>
+
+
+<!-- DOCK -->
 
 <div class="dock">
 <button onclick="openApp('files')">📁</button>
@@ -290,47 +321,34 @@ Type help to see commands.
 
 <div class="notice" id="notice">Hello from Sai Mac OS</div>
 
+
 <script>
 
-/* clock */
+var z=10;
 
-function updateClock(){
-    var now=new Date();
-    document.getElementById("clock").textContent=now.toLocaleTimeString([],{
-        hour:"2-digit",
-        minute:"2-digit"
-    });
+function clock(){
+    var d=new Date();
+    document.getElementById("clock").textContent=
+        d.toLocaleTimeString([],{
+            hour:"2-digit",
+            minute:"2-digit"
+        });
 }
+clock();
+setInterval(clock,1000);
 
-updateClock();
-setInterval(updateClock,1000);
-
-
-/* windows */
-
-var windowNumber=10;
 
 function openApp(id){
-    var win=document.getElementById(id);
-
-    if(!win)return;
-
-    win.style.display="block";
-
-    windowNumber++;
-    win.style.zIndex=windowNumber;
-
-    if(id==="paint"){
-        setTimeout(setPaintSize,50);
-    }
+    var w=document.getElementById(id);
+    if(!w)return;
+    w.style.display="block";
+    w.style.zIndex=++z;
+    if(id==="paint")setTimeout(paintSize,50);
 }
 
 function closeApp(id){
-    var win=document.getElementById(id);
-
-    if(win){
-        win.style.display="none";
-    }
+    var w=document.getElementById(id);
+    if(w)w.style.display="none";
 }
 
 function minimizeApp(id){
@@ -338,287 +356,210 @@ function minimizeApp(id){
 }
 
 function maximizeApp(id){
-    var win=document.getElementById(id);
+    var w=document.getElementById(id);
+    if(!w)return;
 
-    if(!win)return;
-
-    if(win.dataset.big==="yes"){
-        win.dataset.big="no";
-        win.style.width="470px";
-        win.style.height="";
-        win.style.left="150px";
-        win.style.top="80px";
+    if(w.dataset.big==="1"){
+        w.dataset.big="0";
+        w.style.width="450px";
+        w.style.height="";
+        w.style.left="150px";
+        w.style.top="70px";
     }else{
-        win.dataset.big="yes";
-        win.style.width="calc(100vw - 30px)";
-        win.style.height="calc(100vh - 50px)";
-        win.style.left="15px";
-        win.style.top="40px";
+        w.dataset.big="1";
+        w.style.width="calc(100vw - 20px)";
+        w.style.height="calc(100vh - 50px)";
+        w.style.left="10px";
+        w.style.top="40px";
     }
 }
 
 
-/* bring window forward */
+/* move windows */
 
-document.querySelectorAll(".window").forEach(function(win){
-    win.addEventListener("mousedown",function(){
-        windowNumber++;
-        win.style.zIndex=windowNumber;
-    });
-});
+document.querySelectorAll(".window-title").forEach(function(title){
 
+    var w=title.parentElement;
+    var moving=false;
+    var dx=0;
+    var dy=0;
 
-/* drag */
+    title.onmousedown=function(e){
 
-document.querySelectorAll(".title").forEach(function(bar){
+        if(e.target.classList.contains("window-button"))return;
 
-    var win=bar.parentElement;
-    var dragging=false;
-    var moveX=0;
-    var moveY=0;
-
-    bar.addEventListener("mousedown",function(e){
-
-        if(e.target.classList.contains("light")){
-            return;
-        }
-
-        dragging=true;
-
-        moveX=e.clientX-win.offsetLeft;
-        moveY=e.clientY-win.offsetTop;
-
-        windowNumber++;
-        win.style.zIndex=windowNumber;
-    });
+        moving=true;
+        dx=e.clientX-w.offsetLeft;
+        dy=e.clientY-w.offsetTop;
+        w.style.zIndex=++z;
+    };
 
     document.addEventListener("mousemove",function(e){
-
-        if(!dragging)return;
-
-        win.style.left=(e.clientX-moveX)+"px";
-        win.style.top=(e.clientY-moveY)+"px";
+        if(!moving)return;
+        w.style.left=e.clientX-dx+"px";
+        w.style.top=e.clientY-dy+"px";
     });
 
     document.addEventListener("mouseup",function(){
-        dragging=false;
+        moving=false;
     });
 });
 
 
 /* notes */
 
-var notesBox=document.getElementById("notesBox");
+var notes=document.getElementById("notesBox");
 
-notesBox.value=localStorage.getItem("saiNotes")||"";
+notes.value=localStorage.getItem("notes")||"";
 
-notesBox.addEventListener("input",function(){
-    localStorage.setItem("saiNotes",notesBox.value);
-});
+notes.oninput=function(){
+    localStorage.setItem("notes",notes.value);
+};
 
 
 /* calculator */
 
-var calc="";
+var exp="";
 
-function calcAdd(value){
-
-    if(calc==="Error"){
-        calc="";
-    }
-
-    calc+=value;
-
-    document.getElementById("calcDisplay").textContent=calc||"0";
+function calcAdd(x){
+    if(exp==="Error")exp="";
+    exp+=x;
+    document.getElementById("calcDisplay").textContent=exp||"0";
 }
 
 function calcClear(){
-
-    calc="";
-
+    exp="";
     document.getElementById("calcDisplay").textContent="0";
 }
 
 function calcAnswer(){
 
-    if(calc===""){
-        return;
-    }
+    if(!exp)return;
 
-    if(!/^[0-9+\-*/.]+$/.test(calc)){
-
-        calc="Error";
-
-        document.getElementById("calcDisplay").textContent="Error";
-
+    if(!/^[0-9+\-*/.]+$/.test(exp)){
+        exp="Error";
+        document.getElementById("calcDisplay").textContent=exp;
         return;
     }
 
     try{
 
-        var numbers=calc.match(/\d+(?:\.\d+)?/g)||[];
-        var operators=calc.match(/[+\-*/]/g)||[];
+        var nums=exp.match(/\d+(?:\.\d+)?/g)||[];
+        var ops=exp.match(/[+\-*/]/g)||[];
 
-        if(numbers.length!==operators.length+1){
-            throw new Error();
-        }
+        if(nums.length!==ops.length+1)throw 0;
 
-        var answer=Number(numbers[0]);
+        var answer=Number(nums[0]);
 
-        for(var i=0;i<operators.length;i++){
+        for(var i=0;i<ops.length;i++){
 
-            var n=Number(numbers[i+1]);
+            var n=Number(nums[i+1]);
 
-            if(operators[i]==="+"){
-                answer+=n;
-            }else if(operators[i]==="-"){
-                answer-=n;
-            }else if(operators[i]==="*"){
-                answer*=n;
-            }else if(operators[i]==="/"){
+            if(ops[i]==="+")answer+=n;
+            if(ops[i]==="-")answer-=n;
+            if(ops[i]==="*")answer*=n;
 
-                if(n===0){
-                    throw new Error();
-                }
-
+            if(ops[i]==="/"){
+                if(n===0)throw 0;
                 answer/=n;
             }
         }
 
-        if(!isFinite(answer)){
-            throw new Error();
-        }
+        if(!isFinite(answer))throw 0;
 
-        calc=String(answer);
+        exp=String(answer);
 
-        document.getElementById("calcDisplay").textContent=calc;
-
-    }catch(error){
-
-        calc="Error";
-
-        document.getElementById("calcDisplay").textContent="Error";
+    }catch(e){
+        exp="Error";
     }
+
+    document.getElementById("calcDisplay").textContent=exp;
 }
 
 
-/* file search */
+/* files */
 
-function searchFiles(value){
+function searchFiles(text){
 
-    var cards=document.querySelectorAll("#fileList .card");
+    text=text.toLowerCase();
 
-    value=value.toLowerCase();
+    document.querySelectorAll("#fileList .card").forEach(function(file){
 
-    cards.forEach(function(card){
-
-        var name=card.textContent.toLowerCase();
-
-        if(name.indexOf(value)>=0){
-            card.style.display="block";
-        }else{
-            card.style.display="none";
-        }
+        file.style.display=
+            file.textContent.toLowerCase().indexOf(text)>=0
+            ?"block":"none";
     });
 }
 
 
 /* music */
 
-var musicUrl="";
+document.getElementById("musicFile").onchange=function(){
 
-document.getElementById("musicFile").addEventListener("change",function(e){
+    var file=this.files[0];
 
-    var file=e.target.files[0];
-
-    if(!file){
-        return;
-    }
-
-    if(musicUrl){
-        URL.revokeObjectURL(musicUrl);
-    }
-
-    musicUrl=URL.createObjectURL(file);
+    if(!file)return;
 
     var player=document.getElementById("audioPlayer");
 
-    player.src=musicUrl;
+    player.src=URL.createObjectURL(file);
     player.load();
 
     document.getElementById("musicName").textContent=file.name;
-});
+};
 
 
 /* video */
 
-var videoUrl="";
+document.getElementById("videoFile").onchange=function(){
 
-document.getElementById("videoFile").addEventListener("change",function(e){
+    var file=this.files[0];
 
-    var file=e.target.files[0];
-
-    if(!file){
-        return;
-    }
-
-    if(videoUrl){
-        URL.revokeObjectURL(videoUrl);
-    }
-
-    videoUrl=URL.createObjectURL(file);
+    if(!file)return;
 
     var player=document.getElementById("videoPlayer");
 
-    player.src=videoUrl;
+    player.src=URL.createObjectURL(file);
     player.load();
 
     document.getElementById("videoName").textContent=file.name;
-});
+};
 
 
 /* terminal */
 
 function terminalCommand(e){
 
-    if(e.key!=="Enter"){
-        return;
-    }
+    if(e.key!=="Enter")return;
 
     var input=document.getElementById("terminalInput");
-    var output=document.getElementById("terminalOutput");
+    var out=document.getElementById("terminalOutput");
+    var cmd=input.value.trim().toLowerCase();
 
-    var command=input.value.trim().toLowerCase();
-
-    if(command==="help"){
-
-        output.innerHTML+="<br>help - show commands";
-        output.innerHTML+="<br>date - show date";
-        output.innerHTML+="<br>apps - show apps";
-        output.innerHTML+="<br>clear - clear terminal";
-
-    }else if(command==="date"){
-
-        output.innerHTML+="<br>"+new Date().toString();
-
-    }else if(command==="apps"){
-
-        output.innerHTML+="<br>Files, Games, Music, Movies, Notes, Paint, Calculator, Terminal, Settings";
-
-    }else if(command==="clear"){
-
-        output.innerHTML="";
-
-    }else if(command!==""){
-
-        output.innerHTML+="<br>Unknown command: "+command;
+    if(cmd==="help"){
+        out.innerHTML+="<br>help - commands";
+        out.innerHTML+="<br>date - current date";
+        out.innerHTML+="<br>apps - installed apps";
+        out.innerHTML+="<br>clear - clear screen";
+    }
+    else if(cmd==="date"){
+        out.innerHTML+="<br>"+new Date();
+    }
+    else if(cmd==="apps"){
+        out.innerHTML+="<br>Files, Games, Music, Movies, Notes, Paint, Calculator, Terminal, Settings";
+    }
+    else if(cmd==="clear"){
+        out.innerHTML="";
+    }
+    else if(cmd){
+        out.innerHTML+="<br>Unknown command: "+cmd;
     }
 
     input.value="";
 }
 
 
-/* themes */
+/* settings */
 
 function setTheme(color){
     document.body.style.background=color;
@@ -626,146 +567,109 @@ function setTheme(color){
 
 function showNotice(){
 
-    var notice=document.getElementById("notice");
+    var n=document.getElementById("notice");
 
-    notice.style.display="block";
+    n.style.display="block";
 
     setTimeout(function(){
-        notice.style.display="none";
+        n.style.display="none";
     },2000);
 }
 
 
 /* paint */
 
-var paint=document.getElementById("paintCanvas");
-var pen=paint.getContext("2d");
+var canvas=document.getElementById("paintCanvas");
+var ctx=canvas.getContext("2d");
 var drawing=false;
 
-function setPaintSize(){
+function paintSize(){
 
-    var oldImage=null;
+    canvas.width=canvas.clientWidth||430;
+    canvas.height=260;
 
-    if(paint.width>0 && paint.height>0){
-        try{
-            oldImage=paint.toDataURL();
-        }catch(e){}
-    }
-
-    paint.width=paint.clientWidth||430;
-    paint.height=280;
-
-    pen.fillStyle="#fff";
-    pen.fillRect(0,0,paint.width,paint.height);
-
-    if(oldImage){
-        var image=new Image();
-
-        image.onload=function(){
-            pen.drawImage(image,0,0,paint.width,paint.height);
-        };
-
-        image.src=oldImage;
-    }
+    ctx.fillStyle="#fff";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 }
 
-setPaintSize();
+paintSize();
 
-window.addEventListener("resize",function(){
-
-    if(document.getElementById("paint").style.display==="block"){
-        setPaintSize();
-    }
-});
-
-paint.addEventListener("pointerdown",function(e){
+canvas.addEventListener("pointerdown",function(e){
 
     drawing=true;
 
-    paint.setPointerCapture(e.pointerId);
+    var r=canvas.getBoundingClientRect();
 
-    var r=paint.getBoundingClientRect();
+    ctx.beginPath();
 
-    pen.beginPath();
-
-    pen.moveTo(
+    ctx.moveTo(
         e.clientX-r.left,
         e.clientY-r.top
     );
 });
 
-paint.addEventListener("pointermove",function(e){
+canvas.addEventListener("pointermove",function(e){
 
-    if(!drawing){
-        return;
-    }
+    if(!drawing)return;
 
-    var r=paint.getBoundingClientRect();
+    var r=canvas.getBoundingClientRect();
 
-    pen.lineTo(
+    ctx.lineTo(
         e.clientX-r.left,
         e.clientY-r.top
     );
 
-    pen.strokeStyle="#222";
-    pen.lineWidth=3;
-    pen.lineCap="round";
-    pen.stroke();
+    ctx.strokeStyle="#222";
+    ctx.lineWidth=3;
+    ctx.lineCap="round";
+    ctx.stroke();
 });
 
-paint.addEventListener("pointerup",function(){
+canvas.addEventListener("pointerup",function(){
     drawing=false;
 });
 
-paint.addEventListener("pointercancel",function(){
+canvas.addEventListener("pointerleave",function(){
     drawing=false;
 });
 
 function clearPaint(){
-
-    pen.fillStyle="#fff";
-
-    pen.fillRect(
-        0,
-        0,
-        paint.width,
-        paint.height
-    );
+    ctx.fillStyle="#fff";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 }
 
 
 /* click game */
 
 var score=0;
-var gameRunning=false;
-var gameTimer=null;
+var running=false;
+var timer;
 
 function startClickGame(){
 
-    clearInterval(gameTimer);
+    clearInterval(timer);
 
     score=0;
-    gameRunning=true;
+    running=true;
 
     document.getElementById("score").textContent="0";
 
-    var seconds=10;
+    var time=10;
 
     document.getElementById("gameStatus").textContent=
-        seconds+" seconds left";
+        time+" seconds left";
 
-    gameTimer=setInterval(function(){
+    timer=setInterval(function(){
 
-        seconds--;
+        time--;
 
         document.getElementById("gameStatus").textContent=
-            seconds+" seconds left";
+            time+" seconds left";
 
-        if(seconds<=0){
+        if(time<=0){
 
-            clearInterval(gameTimer);
-
-            gameRunning=false;
+            clearInterval(timer);
+            running=false;
 
             document.getElementById("gameStatus").textContent=
                 "Finished. Score: "+score;
@@ -776,9 +680,7 @@ function startClickGame(){
 
 function clickGame(){
 
-    if(!gameRunning){
-        return;
-    }
+    if(!running)return;
 
     score++;
 
@@ -789,13 +691,13 @@ function clickGame(){
 /* snake */
 
 var snakeCanvas=document.getElementById("snakeCanvas");
-var snakeCtx=snakeCanvas.getContext("2d");
+var sctx=snakeCanvas.getContext("2d");
 
 var snake=[];
 var food={x:100,y:100};
-var snakeDirection="right";
-var snakeTimer=null;
-var snakeBlock=20;
+var dir="right";
+var snakeTimer;
+var size=20;
 
 function startSnake(){
 
@@ -807,93 +709,59 @@ function startSnake(){
         {x:60,y:100}
     ];
 
-    snakeDirection="right";
+    dir="right";
 
-    makeFood();
+    newFood();
 
     snakeTimer=setInterval(moveSnake,130);
 }
 
-function makeFood(){
+function newFood(){
 
-    food.x=Math.floor(Math.random()*15)*snakeBlock;
-    food.y=Math.floor(Math.random()*15)*snakeBlock;
+    food.x=Math.floor(Math.random()*15)*size;
+    food.y=Math.floor(Math.random()*15)*size;
 }
 
 function moveSnake(){
-
-    snakeCtx.fillStyle="#111";
-
-    snakeCtx.fillRect(
-        0,
-        0,
-        300,
-        300
-    );
 
     var head={
         x:snake[0].x,
         y:snake[0].y
     };
 
-    if(snakeDirection==="right"){
-        head.x+=snakeBlock;
-    }
-
-    if(snakeDirection==="left"){
-        head.x-=snakeBlock;
-    }
-
-    if(snakeDirection==="up"){
-        head.y-=snakeBlock;
-    }
-
-    if(snakeDirection==="down"){
-        head.y+=snakeBlock;
-    }
+    if(dir==="right")head.x+=size;
+    if(dir==="left")head.x-=size;
+    if(dir==="up")head.y-=size;
+    if(dir==="down")head.y+=size;
 
     if(
-        head.x<0 ||
-        head.x>=300 ||
-        head.y<0 ||
-        head.y>=300
+        head.x<0||
+        head.x>=300||
+        head.y<0||
+        head.y>=300||
+        snake.some(function(p){
+            return p.x===head.x&&p.y===head.y;
+        })
     ){
 
         clearInterval(snakeTimer);
-        snakeTimer=null;
 
-        drawSnakeEnd();
+        sctx.fillStyle="#111";
+        sctx.fillRect(0,0,300,300);
+
+        sctx.fillStyle="#fff";
+        sctx.textAlign="center";
+        sctx.font="20px Arial";
+        sctx.fillText("Game Over",150,145);
 
         return;
     }
 
-    for(var i=0;i<snake.length;i++){
-
-        if(
-            snake[i].x===head.x &&
-            snake[i].y===head.y
-        ){
-
-            clearInterval(snakeTimer);
-            snakeTimer=null;
-
-            drawSnakeEnd();
-
-            return;
-        }
-    }
-
     snake.unshift(head);
 
-    if(
-        head.x===food.x &&
-        head.y===food.y
-    ){
-
-        makeFood();
-
+    if(head.x===food.x&&head.y===food.y){
+        newFood();
     }else{
-
         snake.pop();
     }
 
@@ -902,101 +770,29 @@ function moveSnake(){
 
 function drawSnake(){
 
-    snakeCtx.fillStyle="#111";
+    sctx.fillStyle="#111";
+    sctx.fillRect(0,0,300,300);
 
-    snakeCtx.fillRect(0,0,300,300);
+    sctx.fillStyle="#39c95a";
 
-    snakeCtx.fillStyle="#39c95a";
+    snake.forEach(function(p){
+        sctx.fillRect(p.x,p.y,18,18);
+    });
 
-    for(var i=0;i<snake.length;i++){
-
-        snakeCtx.fillRect(
-            snake[i].x,
-            snake[i].y,
-            18,
-            18
-        );
-    }
-
-    snakeCtx.fillStyle="#ff453a";
-
-    snakeCtx.fillRect(
-        food.x,
-        food.y,
-        18,
-        18
-    );
+    sctx.fillStyle="#f44";
+    sctx.fillRect(food.x,food.y,18,18);
 }
-
-function drawSnakeEnd(){
-
-    snakeCtx.fillStyle="#111";
-
-    snakeCtx.fillRect(0,0,300,300);
-
-    snakeCtx.fillStyle="#fff";
-
-    snakeCtx.font="20px Arial";
-
-    snakeCtx.textAlign="center";
-
-    snakeCtx.fillText(
-        "Game Over",
-        150,
-        145
-    );
-
-    snakeCtx.font="14px Arial";
-
-    snakeCtx.fillText(
-        "Press Start Snake",
-        150,
-        170
-    );
-}
-
-
-/* snake keyboard */
 
 document.addEventListener("keydown",function(e){
 
-    if(e.key==="ArrowUp"){
+    if(e.key==="ArrowUp"&&dir!=="down")dir="up";
+    if(e.key==="ArrowDown"&&dir!=="up")dir="down";
+    if(e.key==="ArrowLeft"&&dir!=="right")dir="left";
+    if(e.key==="ArrowRight"&&dir!=="left")dir="right";
 
-        if(snakeDirection!=="down"){
-            snakeDirection="up";
-        }
-
-        e.preventDefault();
-    }
-
-    if(e.key==="ArrowDown"){
-
-        if(snakeDirection!=="up"){
-            snakeDirection="down";
-        }
-
-        e.preventDefault();
-    }
-
-    if(e.key==="ArrowLeft"){
-
-        if(snakeDirection!=="right"){
-            snakeDirection="left";
-        }
-
-        e.preventDefault();
-    }
-
-    if(e.key==="ArrowRight"){
-
-        if(snakeDirection!=="left"){
-            snakeDirection="right";
-        }
-
-        e.preventDefault();
-    }
 });
 
 </script>
+
 </body>
 </html>
